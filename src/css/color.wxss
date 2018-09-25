@@ -1,0 +1,29 @@
+.black {
+    background-color: #484848;
+}
+.text--black {
+    color: #484848;
+}
+
+.white {
+    background-color: white;
+}
+.text--white {
+    color: white;
+}
+
+/* 主色 */
+.theme {
+    background-color: #008489;
+}
+.text--theme {
+    color: #008489;
+}
+
+/* 辅助色 */
+.assist {
+    background-color: #ff5a5f;
+}
+.text--assist {
+    color: #ff5a5f;
+}

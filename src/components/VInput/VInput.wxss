@@ -1,0 +1,16 @@
+.v-search {
+    font-size: 52rpx;
+    font-weight: 700;
+
+    padding: 40rpx;
+
+    color: #767676;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+@media screen and (min-width: 768px) {
+    .v-search {
+        font-size: 26px;
+        padding: 20px;
+    }
+}

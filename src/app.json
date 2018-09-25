@@ -1,0 +1,15 @@
+{
+  "pages": [
+      "pages/index",
+      "pages/channel",
+      "pages/play"
+  ],
+  "window": {
+      "navigationBarTextStyle": "black",
+      "navigationBarTitleText": "blued同志场所",
+      "navigationBarBackgroundColor": "#fff",
+      "backgroundColor": "#fff",
+      "backgroundTextStyle": "dark",
+      "enablePullDownRefresh": true
+  }
+}

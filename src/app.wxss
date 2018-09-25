@@ -1,0 +1,20 @@
+@import "./css/font.wxss";
+@import "./css/margin.wxss";
+page {
+    display: flex;
+    font-size: 30rpx;
+    flex-direction: column;
+    color: #484848;
+}
+
+@media screen and (max-width: 330px) {
+    page {
+        font-size: 34rpx;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    page {
+        font-size: 17px;
+    }
+}

@@ -1,0 +1,4 @@
+<view class="v-search">
+    <v-input class="pl-20 flex-1 v-search-input" bindsubmit="submit" bindchange="setValue" words="{{words}}"></v-input>
+    <view class="v-search-clear">清楚</view>
+</view>

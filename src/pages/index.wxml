@@ -1,0 +1,22 @@
+
+<view class="wxpage">
+    <input class="pl-20 flex-1 v-search-input" ></input>
+
+    <vsearch binding="$">搜索场所</vsearch>
+	<canvas style="height: 100px;width: 250px;" canvas-id="canvas"></canvas>
+	<view style="position: fixed;bottom: 0;left: 0;right: 0;height: 50px;background-color: blue;"
+		binddbtap="onTouchend"
+		binddbclick="onTTap"
+	></view>
+	<button bindtap="onPlay">Go go play page($route)</button>
+	<button bindtap="$bindRoute"
+		data-url="/pages/play?cid=1"
+		data-before="onClickBefore"
+		data-after="onClickAfter"
+	>Go go play page(bindRoute)</button>
+	<button bindtap="onPlayNav">Go go play page(wx.navigateTo)</button>
+
+	<navigator url="/pages/play?cid=12"><button>Go go play page(navigator:navigate)</button></navigator>
+	<navigator url="/pages/play?cid=123" open-type="redirect"><button>Go go play page(navigator:redirect)</button></navigator>
+	<navigator url="/pages/channel?cid=12345" open-type="switchTab"><button>Go go play page(navigator:switchTab)</button></navigator>
+</view>

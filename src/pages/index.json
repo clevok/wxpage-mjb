@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+        "vsearch": "/components/VSearch/VSearch"
+    }
+}
