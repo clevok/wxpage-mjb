@@ -1,6 +1,4 @@
-var C = require('../../core/page').C
-
-C({
+Component.C({
   data: {},
   created: function() {
     this.$id = 1

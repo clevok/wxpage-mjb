@@ -1,7 +1,7 @@
-var wxpage = require('./core/page.js');
-wxpage.A({
+const wxpage = require('./core/page');
+App.A({
 	config: {
-		route: ['test/pages/$page', '/pages/$page'],
+		route: ['pages/$page', 'pages/$page', 'pages/$page'],
 		resolvePath: function (name) {
 			return '/pages/' + name
 		}

@@ -1,5 +1,5 @@
 
 <input placeholder="{{placeholder}}"
-        words="{{words}}"
+        value="{{words}}"
         bindinput="bindinput" bindblur="bindblur" bindconfirm="bindconfirm"
         auto-focus="{{focus}}" />

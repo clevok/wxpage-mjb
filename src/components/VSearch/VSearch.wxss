@@ -1,24 +1,29 @@
+
+@import '/css/color.wxss';
 .v-search {
     border-bottom: 1px solid #e5e5e5;
 
     display: flex;
     align-items: center;
 }
-.v-search-input {
-    font-size: 52rpx;
-    font-weight: 700;
-    color: #767676;
-}
+
 .pl-20 {
     padding-left: 40rpx;
 }
-.v-search-clear {
-    color: #008489;
-    padding: 40rpx;
-}
-.flex-1 {
+
+.v-search-input {
+    font-size: 44rpx;
+    font-weight: 700;
+    color: #767676;
     flex: 1;
 }
+.v-search-clear {
+    padding: 40rpx;
+    position: absolute;
+    right: 0;
+    pointer-events: none;
+}
+
 @media screen and (min-width: 768px) {
     .pl-20 {
         padding-left: 20px;

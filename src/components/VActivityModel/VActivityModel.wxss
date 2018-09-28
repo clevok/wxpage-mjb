@@ -1,0 +1,62 @@
+.v-model {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+
+    opacity: 0;
+    transition: opacity ease-out 0.2s;
+    background-color: black;
+}
+.v-model.show {
+    opacity: 1;
+}
+.v-model.hide {
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.zoom {
+    animation-timing-function: ease-out;
+    animation-duration: 0.2s;
+    animation-name: zoom;
+    animation-fill-mode: both;
+}
+@keyframes zoom {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(1.1, 1.1, 1.1);
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.zoom_out {
+    animation-timing-function: ease;
+    animation-duration: 0.2s;
+    animation-name: zoom_out;
+    animation-fill-mode: forwards;
+}
+@keyframes zoom_out {
+    0% {
+        opacity: 1;
+    }
+    99% {
+        opacity: 0;
+        -webkit-transform: scale3d(0.9, 0.9, 0.9);
+        transform: scale3d(0.9, 0.9, 0.9);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale3d(0.9, 0.9, 0.9);
+        transform: scale3d(0.9, 0.9, 0.9);
+        display: none;
+    }
+}

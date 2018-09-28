@@ -1,4 +1,4 @@
-Component({
+Component.C({
     properties: {
         placeholder: {
             type: String,
@@ -11,7 +11,7 @@ Component({
         words: {
             type: String,
             observer: (value) => {
-                console.log('值', value);
+                console.log('改变值', value);
             }
         }
     },
@@ -19,18 +19,30 @@ Component({
 
     },
     methods: {
+        init(obj) {
+            if(obj.words) {
+                this.setData({
+                    words: this.words
+                });
+            }
+        },
         bindinput({detail}) {
-            this.words = detail.value.trim();
-            this.triggerEvent('change', this.words);
+            let msg = detail.value.trim();
+            if(msg != this.properties.words) {
+                this.triggerEvent('change', msg);
+            }
+            this.properties.words = msg;
         },
         bindblur({detail}) {
-            this.words = detail.value.trim();
-            this.triggerEvent('change', this.words);
+            let msg = detail.value.trim();
+            if(msg != this.properties.words) {
+                this.triggerEvent('change', msg);
+            }
+            this.properties.words = msg;
         },
         bindconfirm({detail}) {
-            this.words = detail.value.trim();
-            this.triggerEvent('change', this.words);
-            this.triggerEvent('submit', this.words);
+            this.properties.words = detail.value.trim();
+            this.triggerEvent('submit', this.properties.words);
         }
     }
 })

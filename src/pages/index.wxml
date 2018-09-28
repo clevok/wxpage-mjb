@@ -1,8 +1,6 @@
 
 <view class="wxpage">
-    <input class="pl-20 flex-1 v-search-input" ></input>
-
-    <vsearch binding="$">搜索场所</vsearch>
+    <vsearch ref="VSearch" binding="$">搜索场所</vsearch>
 	<canvas style="height: 100px;width: 250px;" canvas-id="canvas"></canvas>
 	<view style="position: fixed;bottom: 0;left: 0;right: 0;height: 50px;background-color: blue;"
 		binddbtap="onTouchend"

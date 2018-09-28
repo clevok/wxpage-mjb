@@ -1,7 +1,4 @@
-// var P = require('../lib/wxpage')
-var P = require('../core/page.js');
-
-P('play', {
+Page.P('play', {
 	data: {},
 	onPreload: function (res) {
 		console.log('[pages/play] 页面预加载:', res)
