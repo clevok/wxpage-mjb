@@ -8,7 +8,7 @@ Page.P('play', {
 	},
 	onLoad: function(res) {
 		console.log('[pages/play] 页面完成加载', res)
-		var t = this.$take('t')
+		let t = this.$take('t')
 	},
 	onShow: function () {
 		console.log('[pages/play] 页面展示')

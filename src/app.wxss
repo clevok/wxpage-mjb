@@ -2,9 +2,10 @@
 @import "./css/margin.wxss";
 page {
     display: flex;
-    font-size: 30rpx;
     flex-direction: column;
-    color: #484848;
+    color: #454545;
+    min-height: 100%;
+    font-size: 30rpx;
 }
 
 @media screen and (max-width: 330px) {

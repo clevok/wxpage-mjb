@@ -74,7 +74,6 @@
     .text--size-6,.text--large {
         font-size: 40rpx;
     }
-    
 }
 
 /** 

@@ -1,15 +1,15 @@
 {
-  "pages": [
-      "pages/index",
-      "pages/channel",
-      "pages/play"
-  ],
-  "window": {
-      "navigationBarTextStyle": "black",
-      "navigationBarTitleText": "demo",
-      "navigationBarBackgroundColor": "#fff",
-      "backgroundColor": "#fff",
-      "backgroundTextStyle": "dark",
-      "enablePullDownRefresh": true
-  }
+	"pages": [
+		"pages/index",
+		"pages/channel",
+		"pages/play"
+	],
+	"window": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "demo",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#fff",
+		"backgroundTextStyle": "dark",
+		"enablePullDownRefresh": true
+	}
 }
