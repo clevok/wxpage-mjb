@@ -1,0 +1,68 @@
+
+.header-opacity {
+    height: 68px;
+    opacity: 0;
+    transition: opacity 0.3s ease, height 0.3s ease; 
+}
+.ios,
+.iosX,
+.android {
+    opacity: 1;
+}
+.ios {
+    height: 64px;
+}
+.iosX {
+    height: 88px;
+}
+.android {
+    height: 68px;
+}
+
+.header-fix {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 18px;
+    background-color:white;
+    box-sizing: content-box;
+    padding-top: auto;
+    transition: all 0.3s ease; 
+}
+.ios > .header-fix {
+    padding-top: 20px;
+}
+.iosX > .header-fix {
+    padding-top: 44px;
+}
+.android > .header-fix {
+    padding-top: 20px;
+    height: 48px;
+}
+.flex-1 {
+    flex: 1;
+}
+.fy--center {
+    display: flex;
+    align-items: center;
+}
+.title {
+    font-size: 15px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+.icons {
+    padding-left: 4px; 
+}
+.icons>.icon-back {
+    font-weight: bold;
+    font-size: 26px;
+}

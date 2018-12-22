@@ -1,0 +1,57 @@
+@import '/css/color.wxss';
+.v-comment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.image-user {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #E6E6E6;
+    margin-right: 8px; 
+}
+
+.panel {
+    padding-top: 40rpx;
+    padding-bottom: 40rpx;
+}
+.panel-title {
+    font-size: 38rpx;
+}
+.panel.hr {
+    border-top: 1px solid #E5E5E5;
+}
+.panel.hr:first-child {
+    border-top: none;
+}
+
+.flex {
+    display: flex;
+}
+.fy--center {
+    display: flex;
+    align-items: center;
+}
+.flex-1 {
+    flex: 1;
+}
+.re-comment {
+    background-color: #f5f5f5;
+    position: relative;
+}
+.re-comment-name {
+    color: #008489;
+}
+.v-comment-name {
+    font-size: 12px;
+}
+.v-comment-time {
+    font-size: 11px;
+    color: grey;
+}
+.v-comment-content {
+    margin-top: 14px;
+    margin-bottom: 14px;
+}

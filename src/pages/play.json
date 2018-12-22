@@ -1,6 +1,0 @@
-{
-	"usingComponents": {
-    "header": "/components/header/header",
-    "nav": "/components/nav/nav"
-  }
-}

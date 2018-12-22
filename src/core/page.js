@@ -7,6 +7,8 @@ var cache = require('./lib/cache')
 var C = require('./lib/component')
 var bridge = require('./lib/bridge')
 var _conf = require('./lib/conf')
+var mixins = require('./lib/mixins')
+
 var dispatcher = new message()
 var hasPageLoaded = 0
 var isAppLaunched = 0
@@ -200,7 +202,7 @@ WXPage.message = message
 WXPage.cache = cache
 WXPage.fns = fns
 WXPage.getPageName = bridge.getPageName
-
+WXPage.mixins = mixins
 /**
  * Config handler
  */

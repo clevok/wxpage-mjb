@@ -4,6 +4,9 @@
 .text--black {
     color: #484848;
 }
+.grey-1 {
+    background-color: #eeeeee
+}
 
 .white {
     background-color: white;
@@ -13,10 +16,10 @@
 }
 
 .theme {
-    background-color: #008489;
+    background-color: #034b2b;
 }
 .text--theme {
-    color: #008489;
+    color: #034b2b;
 }
 
 /* 辅助色 */

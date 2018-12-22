@@ -1,0 +1,8 @@
+<view class="v-table-content">
+    <scroll-view scroll-x="{{true}}" class="v-tabs ">
+        <block wx:for="{{list}}" wx:key="index">
+        <view bindtap="setIndex" data-index="{{index}}" class="v-tabs-child {{act==index?'act':''}}">{{item.text}}</view>
+        </block>
+    </scroll-view>
+
+</view>

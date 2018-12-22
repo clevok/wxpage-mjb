@@ -1,1 +1,9 @@
 /* pages/index.wxss */
+.index-child {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 40%;
+}
+.index-child:nth-child(even){
+    margin-left: 10px;
+}

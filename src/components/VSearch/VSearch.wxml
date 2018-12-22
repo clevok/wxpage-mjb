@@ -1,4 +1,4 @@
-<view class="v-search" catchtap="demo">
+<view class="v-search">
     <v-input binding="$" ref="VInput" class="pl-20 v-search-input" bindsubmit="submit"></v-input>
-    <view bindtouchstart="clear" class="v-search-clear text--theme">清空</view>
+    <view bindtap="clear" class="v-search-clear text--theme">清空</view>
 </view>

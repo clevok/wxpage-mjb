@@ -1,60 +1,61 @@
 
-var d = new Date()
+const searchList = require('../mixins/searchPanel');
+const searchPanelList = require('../mixins/searchPanelList');
+const {placeTyps} = require('../core/config');
 
-Page.P('index', {
-	data: {},
+console.log(wx.setStorageSync('pname', 123456));
+
+console.log(wx.getStorageSync('pname'));
+console.log(wx.getSystemInfoSync());
+Page.P('index', Page.P.mixins(searchList, searchPanelList , {
+	data: {
+        placeTyps: placeTyps,
+        lname: null
+    },
 	onPageLaunch: function () {
-		console.log('[pages/index] 页面启动：', new Date() - d, 'ms')
+		console.log('[pages/index] 页面启动：')
 	},
 	onAppLaunch: function (opts) {
-		console.log('[pages/index]  程序启动：', opts)
+		console.log('[pages/index]  程序启动：')
 	},
 	onLoad: function() {
-		this.$preload('play?cid=456')
-		console.log('看组件', this.$refs);
-		// cache test
-		// console.log('[Step 1] cache get', this.$cache.get('cache'))
-		// console.log('[Step 2] cache set "cache"')
-		this.$cache.set('cache', {name: 'wxpage'})
-		// console.log('[Step 3] cache get', this.$cache.get('cache'))
+console.log(wx.getStorageSync('pname'));
+        
+        wx.login({
+            success:(res) => {
+                console.log(res);
+            }
+        })
+        this.getList();
+    },
+    getList() {
+        let param = {
+            page_index: this.data.page
+        };
 
-		// session test
-		// console.log('[Step 1] session get', this.$session.get('session'))
-		// console.log('[Step 2] session set "session"')
-		this.$session.set('session', {name: 'wxpage'})
-		// console.log('[Step 3] session get', this.$session.get('session'))
+        this.searchList(wx.$api.place.getList, param)
+        .then(({page_index, page_size, total_count, result})=> {
+            this.setData({
+                list: this.data.list.concat(result)
+            });
+            this.afterSearch(page_index, Math.ceil(total_count/page_size), total_count);
+        });
+    },
+    methods: {
 
-		setTimeout(function () {
-			Page.P.emit('some_message', 'I am index!')
-		}, 100)
-	},
-	onReady: function () {
-
-	},
-	onPlay: function () {
-		this.$route('play?cid=123')
-	},
-	onPlayNav: function () {
-		wx.navigateTo({
-			url: '/pages/play?cid=abcd'
-		})
-	},
-	onShow: function () {
-		console.log('[pages/index] 页面展示')
-	},
+    },
+    tapPlace() {
+        console.log('555')
+        this.$route('place/place?cid=123')
+        this.$preload('place?cid=456')
+        // this.$preload('place/place?vid=xxx&cid=xxx');
+    },
 	onAwake: function (t) {
-		console.log('[pages/index] 程序被唤醒：', t)
-	},
-	onClickBefore: function (e) {
-		console.log('## On click before')
-	},
-	onClickAfter: function (e) {
-	},
-	onTouchend: function (e) {
-	},
-	onTTap: function () {
-	},
-	callFromComponent: function (name) {
-		console.log('!!! call from component:', name)
-	}
-})
+    },
+    onReachBottom() {
+        this.Reset();
+    },
+    onPullDownRefresh() {
+        this.Refresh();
+    }
+}))

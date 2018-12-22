@@ -1,0 +1,32 @@
+.v-table-content {
+    overflow: hidden;
+    padding-bottom: 6px;
+}
+.v-tabs {
+    white-space: nowrap;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+.v-tabs-child {
+    display: inline-block;
+    margin-right: 40rpx;
+    padding: 26rpx 0;
+    color: #bdbdbd;
+    border-bottom: 2px solid transparent; 
+}
+.v-tabs-child.act {
+    border-bottom-color:#484848; 
+    color: #484848;
+}
+.v-tabs-child:first-child {
+    margin-left: 40rpx; 
+}
+
+@media screen and (min-width: 768px) {
+    .v-tabs-child {
+        margin-right: 20rpx;
+        padding: 13px 0;
+    }
+    .v-tabs-child:first-child {
+        margin-left: 20px; 
+    }
+}

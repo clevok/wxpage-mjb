@@ -40,7 +40,10 @@ module.exports = {
 				} else {
 					console.error('Illegal routes option:', v)
 				}
-				break
+                break
+            case 'minixs':
+                console.log('minixs');
+                break; 
 			default:
 				_conf[k] = v
 		}

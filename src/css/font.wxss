@@ -18,7 +18,7 @@
     font-weight: 400 !important;
   }
   .font-weight-medium {
-    font-weight: 500 !important;
+    font-weight: 600 !important;
   }
   .font-weight-bold {
     font-weight: 700 !important;
@@ -40,19 +40,21 @@
     font-size: 30rpx;
 }
 .text--size-4 {
-    font-size: 32rpx;
-}
-.text--size-5 {
     font-size: 34rpx;
 }
-.text--size-6,.text--large {
-    font-size: 36rpx;
+.text--size-5 {
+    font-size: 38rpx;
 }
-
+.text--size-6,.text--large {
+    font-size: 42rpx;
+}
+.text--title {
+    font-size: 60rpx
+}
 /** 
  * 针对 iphone5 的屏幕
  */
- @media screen and (max-width: 330px) {
+ /* @media screen and (max-width: 330px) {
     .text--smaller {
         font-size: 28rpx;
     }
@@ -75,7 +77,7 @@
         font-size: 40rpx;
     }
     
-}
+} */
 
 /** 
  * 针对 ipad 的屏幕
@@ -101,6 +103,9 @@
     }
     .text--size-6,.text--large {
         font-size: 21px;
+    }
+    .text--title {
+        font-size: 30px
     }
     
 }

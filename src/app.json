@@ -1,15 +1,32 @@
 {
-  "pages": [
-      "pages/index",
-      "pages/channel",
-      "pages/play"
-  ],
-  "window": {
-      "navigationBarTextStyle": "black",
-      "navigationBarTitleText": "demo",
-      "navigationBarBackgroundColor": "#fff",
-      "backgroundColor": "#fff",
-      "backgroundTextStyle": "dark",
-      "enablePullDownRefresh": true
-  }
+    "pages": [
+        "pages/index",
+        "pages/channel",
+        "pages/place/place"
+    ],
+    "window": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "demo",
+        "navigationBarBackgroundColor": "#fff",
+        "backgroundColor": "#fff",
+        "backgroundTextStyle": "dark",
+        "navigationStyle": "custom"
+    },
+    "tabBar": {
+        "selectedColor": "#034b2b",
+        "list": [
+            {
+                "pagePath": "pages/index",
+                "text": "首页",
+                "iconPath": "static/images/address.png",
+                "selectedIconPath": "static/images/address-act.png"
+            },
+            {
+                "pagePath": "pages/channel",
+                "text": "我的",
+                "iconPath": "static/images/user.png",
+                "selectedIconPath": "static/images/user-act.png"
+            }
+        ]
+    }
 }

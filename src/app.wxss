@@ -1,5 +1,7 @@
 @import "./css/font.wxss";
 @import "./css/margin.wxss";
+@import "./css/flex.wxss";
+
 page {
     display: flex;
     font-size: 30rpx;
@@ -7,14 +9,58 @@ page {
     color: #484848;
 }
 
+.showLine-1,.showLine-2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.showLine-1 {
+    -webkit-line-clamp: 1;
+}
+.showLine-2 {
+    -webkit-line-clamp: 2;
+}
+
+.panel {
+    padding-top: 40rpx;
+    padding-bottom: 40rpx;
+}
+.panel-title {
+    font-size: 38rpx;
+    padding-bottom: 40rpx;
+}
+.panel.hr {
+    border-top: 1px solid #E5E5E5;
+}
+.panel.hr:first-child {
+    border-top: none;
+}
+
 @media screen and (max-width: 330px) {
     page {
         font-size: 34rpx;
+    }
+    .panel {
+        padding-top: 40rx;
+        padding-bottom: 40rpx;
+    }
+    .panel-title {
+        font-size: 42rpx;
+        padding-bottom: 40rpx;
     }
 }
 
 @media screen and (min-width: 768px) {
     page {
-        font-size: 17px;
+        font-size: 15px;
+    }
+    .panel {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .panel-title {
+        font-size: 19px;
+        padding-bottom: 20px;
     }
 }

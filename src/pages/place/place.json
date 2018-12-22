@@ -1,0 +1,7 @@
+{
+    "navigationBarTitleText": "详情",
+    "navigationBarTextStyle": "white",
+    "usingComponents": {
+        "vcomment": "/components/VComment/VComment"
+    }
+}
