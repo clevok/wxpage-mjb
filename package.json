@@ -1,16 +1,23 @@
 {
-  "name": "wxpage",
-  "version": "1.1.7",
-  "description": "WXPage is a lightweight framework for weixin tinyapp.",
-  "main": "page.js",
-  "scripts": {
-    "start": "webpack page.js --output-path test/tinyapp/lib/  --output-filename wxpage.js --watch --output-library-target='commonjs-module'",
-    "test": "mocha test/index",
-    "r": "webpack --config webpack.config.js"
-  },
-  "author": "vfe",
-  "license": "MIT",
-  "devDependencies": {
-    "webpack": "^2.2.1"
-  }
+	"name": "wxpage",
+	"version": "1.1.7",
+	"description": "WXPage is a lightweight framework for weixin tinyapp.",
+	"main": "page.js",
+	"scripts": {
+		"start": "webpack page.js --output-path test/tinyapp/lib/  --output-filename wxpage.js --watch --output-library-target='commonjs-module'",
+		"test": "mocha test/index",
+		"r": "webpack --config webpack.config.js"
+	},
+	"author": "vfe",
+	"license": "MIT",
+	"devDependencies": {
+		"babel-core": "^6.26.3",
+		"babel-eslint": "^10.0.1",
+		"babel-preset-es2015": "^6.24.1",
+		"eslint": "^5.9.0",
+		"eslint-friendly-formatter": "^4.0.1",
+		"eslint-loader": "^2.1.1",
+		"eslint-plugin-html": "^5.0.0",
+		"webpack": "^2.2.1"
+	}
 }

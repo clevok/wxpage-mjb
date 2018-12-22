@@ -3,6 +3,7 @@
 	"packOptions": {
 		"ignore": []
 	},
+	"miniprogramRoot": "src/",
 	"setting": {
 		"urlCheck": true,
 		"es6": true,

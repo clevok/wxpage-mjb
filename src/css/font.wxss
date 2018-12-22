@@ -76,8 +76,7 @@
     .text--size-6,.text--large {
         font-size: 40rpx;
     }
-    
-} */
+}
 
 /** 
  * 针对 ipad 的屏幕
