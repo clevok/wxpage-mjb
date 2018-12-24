@@ -3,15 +3,11 @@ const searchList = require('../mixins/searchPanel');
 const searchPanelList = require('../mixins/searchPanelList');
 const {placeTyps} = require('../core/config');
 
-console.log(wx.setStorageSync('pname', 123456));
-
-console.log(wx.getStorageSync('pname'));
-console.log(wx.getSystemInfoSync());
 Page.P('index', Page.P.mixins(searchList, searchPanelList , {
 	data: {
-        placeTyps: placeTyps,
-        lname: null
-    },
+		placeTyps: placeTyps,
+		lname: null
+	},
 	onPageLaunch: function () {
 		console.log('[pages/index] 页面启动：')
 	},
