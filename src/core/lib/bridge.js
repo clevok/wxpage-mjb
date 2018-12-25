@@ -26,21 +26,21 @@ module.exports = {
 	mount: function (e) {
 		var payload = e.detail
 		switch(payload.type) {
-			case 'attached':
-				let ref = getRef && getRef(payload.id)
-				if (!ref) return
+		case 'attached':
+			let ref = getRef && getRef(payload.id)
+			if (!ref) return
 
-				let refName = ref._$ref
-				if (refName && this.$refs) {
-					this.$refs[refName] = ref
-				}
-				ref._$attached(this)
-				break
-			case 'event:call':
-				let method = this[payload.method]
-				method && method.apply(this, payload.args)
-			default:
-				break
+			let refName = ref._$ref
+			if (refName && this.$refs) {
+				this.$refs[refName] = ref
+			}
+			ref._$attached(this)
+			break
+		case 'event:call':
+			let method = this[payload.method]
+			method && method.apply(this, payload.args)
+		default:
+			break
 		}
 	},
 	redirectDelegate: function (emitter, dispatcher) {

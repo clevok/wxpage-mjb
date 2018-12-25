@@ -1,8 +1,9 @@
 const wxpage = require('./core/page');
 App.A({
 	config: {
-		route: ['pages/$page', 'pages/$page', 'pages/$page'],
+		route: ['pages/$page', 'page/user/$page' , 'subpack/$page'],
 		resolvePath: function (name) {
+			debugger
 			return '/pages/' + name
 		}
 	},

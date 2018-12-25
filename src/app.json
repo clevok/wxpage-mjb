@@ -2,7 +2,9 @@
 	"pages": [
 		"pages/index",
 		"pages/channel",
-		"pages/play"
+		"pages/play",
+		"pages/user/user",
+		"pages/user/index"
 	],
 	"window": {
 		"navigationBarTextStyle": "black",

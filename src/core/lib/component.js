@@ -48,10 +48,10 @@ function component(def) {
 		this.$parent = null
 	})
 	def.properties = fns.extend({}, def.properties, {
-    'ref': {
+		'ref': {
     	type: String,
-      value: '',
-      observer: function(next) {
+			value: '',
+			observer: function(next) {
       	/**
       	 * 支持动态 ref
       	 */
@@ -66,8 +66,8 @@ function component(def) {
 						}
 					}
       	}
-      }
-    },
+			}
+		},
 	})
 	def.methods = fns.extend({}, def.methods, {
 		// 与旧的一致

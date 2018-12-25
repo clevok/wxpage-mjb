@@ -42,5 +42,5 @@ exportee.reLaunch = function (cfg) {
 	return route('reLaunch', cfg, arguments)
 }
 exportee.navigateBack = function () {
-  return wx.navigateBack.apply(wx, arguments)
+	return wx.navigateBack.apply(wx, arguments)
 }
