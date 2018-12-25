@@ -1,0 +1,36 @@
+.v-card {
+
+}
+.v-card-img {
+    position: relative;
+    padding-top: 61.8%;
+    overflow: hidden;
+    background-color: #eeeeee;
+    border-radius: 6px;
+}
+.v-card-img>image {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.v-card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-weight: 700;
+}
+.v-card-tips {
+    line-height: 56rpx;
+    font-size: 26rpx;
+    font-weight: 600;
+}
+
+@media screen and (min-width: 768px) {
+    .v-card-tips {
+        line-height: 28px;
+        font-size: 13px;
+    }
+}

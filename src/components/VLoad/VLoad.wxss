@@ -1,0 +1,7 @@
+.v-load {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    color: grey;
+}

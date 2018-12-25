@@ -1,0 +1,5 @@
+<view class="v-model {{show?'show':'hide'}}" bindtap="tapBg">
+    <view class="content {{show?anima:anima+'_out'}}" >
+        <slot></slot>
+    </view>
+</view>

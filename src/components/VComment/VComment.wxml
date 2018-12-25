@@ -1,0 +1,36 @@
+<view class="v-comment">
+    <view class="v-comment-header panel hr">
+        <text class="panel-title">评论 {{total}}</text>
+        <text class="text--theme" bindtap="topic">写评论</text>
+    </view>
+    <block wx:for="{{list}}" wx:key="topicId" wx:for-index="index" wx:for-item="item">
+        <view class="panel hr">
+            <view class="fy--center">
+                <image class="image-user" mode="aspectFill" src="{{item.userImg}}" ></image>
+                <view class="flex-1">
+                    <view class="v-comment-name">{{item.userName}}</view>
+                    <view class="v-comment-time">{{item.time}}</view>
+                </view>
+                <view catchtap="reTopic">
+                    回复
+                </view>
+            </view>
+            <view class="v-comment-content">
+                {{item.content}}
+            </view>
+            <view class="re-comment">
+                <block wx:for="{{item.childs}}" wx:key="reTopicId" wx:for-index="cindex" wx:for-item="citem">
+                    <view hover-class="navigator-hover" catchtap="reTopic" class="">  
+                        <text class="text--theme">{{citem.userName}}<text class="text--grey" wx:if="{{citem.toUserName}}"> 回复 </text>{{citem.toUserName}}</text> : {{citem.content}}
+                    </view>
+                </block>
+                
+                <view wx:if="{{item.childs.length<item.child_total}}" 
+                        catchtap="getReTopic"
+                        class="text--middle mt-2">查看更多回复</view>
+
+            </view>
+
+        </view>
+    </block>
+</view>

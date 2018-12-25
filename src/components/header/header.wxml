@@ -1,5 +1,10 @@
-<view>
-  Header Component!
-  <view></view>
-  <nav binding="$" ref="nav"></nav>
+<view class="header-opacity {{model}}">
+    <view class="header-fix">
+        <view class="flex-1 fy--center icons">
+        </view>
+        <view class="title">
+            <slot></slot>
+        </view>
+        <view class="flex-1"></view>
+    </view>
 </view>

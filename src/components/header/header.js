@@ -1,20 +1,38 @@
+const app = getApp();
+
 Component.C({
-	data: {},
-	created: function() {
-		this.$id = 1
-		console.log('[Component/Header] created', this.properties, this.is)
-	},
-	attached: function() {
-		console.log('[Component/Header] attached', this.properties, this.is, this.$root)
-	},
-	ready: function() {
-		// 调用父组件方法
-		this.$call('callFromComponent', 'header')
-		console.log('[Component/Header] ready', this.properties, this.is)
-	},
-	methods: {
-		callFromComponent: function (from) {
-			console.log('!!! call from:', from)
-		}
-	}
+    data: {
+        model: 'android'
+    },
+    created: function() {
+    },
+    attached: function() {
+        this.setHeight();
+    },
+    methods: {
+        setHeight() {
+            
+            try {
+                let res = app.getSystemInfo();
+                let model = res.model.toUpperCase();
+                if (model.indexOf('IPHONE') != -1) {
+                    let str = 'ios';
+                    if (model.indexOf('X') != -1) {
+                        str = 'iosX';
+                    }
+                    this.setData({
+                        model: str
+                    })
+                    return;
+                }
+                this.setData({
+                    model: 'android'
+                })
+            } catch (e) {
+                this.setData({
+                    model: 'android'
+                })
+            }
+        }
+    }
 })

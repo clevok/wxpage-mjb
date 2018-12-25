@@ -1,0 +1,6 @@
+<view class="v-load">
+    <view wx:if="{{loadStatus.isEmpty}}">空空如也</view>
+    <view wx:elif="{{loadStatus.isEnd}}">没有更多了</view>
+    <view wx:elif="{{loadStatus.isLoading}}">加载中..</view>
+    <view wx:elif="{{loadStatus.isError}}">加载失败</view>
+</view>

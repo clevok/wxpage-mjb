@@ -1,20 +1,19 @@
 
-<view class="wxpage">
-    <vsearch ref="VSearch" binding="$">搜索场所</vsearch>
-	<canvas style="height: 100px;width: 250px;" canvas-id="canvas"></canvas>
-	<view style="position: fixed;bottom: 0;left: 0;right: 0;height: 50px;background-color: blue;"
-		binddbtap="onTouchend"
-		binddbclick="onTTap"
-	></view>
-	<button bindtap="onPlay">Go go play page($route)</button>
-	<button bindtap="$bindRoute"
-		data-url="/pages/play?cid=1"
-		data-before="onClickBefore"
-		data-after="onClickAfter"
-	>Go go play page(bindRoute)</button>
-	<button bindtap="onPlayNav">Go go play page(wx.navigateTo)</button>
-
-	<navigator url="/pages/play?cid=12"><button>Go go play page(navigator:navigate)</button></navigator>
-	<navigator url="/pages/play?cid=123" open-type="redirect"><button>Go go play page(navigator:redirect)</button></navigator>
-	<navigator url="/pages/channel?cid=12345" open-type="switchTab"><button>Go go play page(navigator:switchTab)</button></navigator>
+<view>
+    <header>首页</header>
+    <vtabs binding="$" list="{{placeTyps}}"></vtabs>
+    <view class="px-4">
+        <view class="my-4 text--title font-weight-medium">最近的场所{{lname}}</view>
+        <view class="flex wrap">
+            <block wx:for="{{list}}" wx:key="index">
+            <view class="index-child mb-5" bindtap="tapPlace">
+                <vcard src="{{item.placeImg[0]}}" title="{{item.placeName}}">
+                    <view slot="tips">{{item.type}} 0.63km</view>
+                    <view class="text--smaller showLine-1">{{item.context}}</view>
+                </vcard>
+            </view>
+            </block>
+        </view>
+    </view>
+    <vload loadStatus="{{loadStatus}}"></vload>
 </view>

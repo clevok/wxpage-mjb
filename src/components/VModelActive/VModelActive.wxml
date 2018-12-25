@@ -1,0 +1,9 @@
+<v-model tapClose="{{false}}" show="{{show}}">
+    <view class="v-model-body">
+        <view class="v-model-title">提示</view>
+        <view class="v-model-content">快速链接发的卡上的积分对技术的开发收到甲方看</view>
+        <view class="v-mode-actives" bindtap="closeModel">
+            <slot></slot>
+        </view>
+    </view>
+</v-model>

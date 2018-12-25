@@ -19,9 +19,6 @@ Component.C({
                 words: ''
             });
         },
-        demo(e) {
-            console.log(e);
-        },
         submit({detail}) {
             this.triggerEvent('submit', detail);
         }

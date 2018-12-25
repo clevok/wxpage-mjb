@@ -1,0 +1,26 @@
+<view>
+    <swiper class="place-swiper">
+        <block wx:for="{{imgUrls}}" wx:key="index">
+            <swiper-item>
+            <image src="{{item}}" mode="aspectFill" class="slide-image"/>
+            </swiper-item>
+        </block>
+    </swiper>
+    <view class="px-5">
+        <view class="mt-3 font-weight-medium text--smaller">场所</view>
+        <view class="text--title font-weight-medium">城西银泰健身房</view>
+        <view class="panel hr mt-4">
+            <view class="panel-title">详情</view>
+            <view>下沙稳定空间四大会计师的收到罚单第三方宽松的肌肤</view>
+        </view>
+        <view class="panel hr">
+            <view class="panel-title">位置</view>
+            <image class="place-img" src="https://restapi.amap.com/v3/staticmap?key=f1ea84ab042f4c3f627117630655c73c&location=104.08641,30.65264&zoom=11&size=400*247&markers=mid,,P:104.08641,30.65264" mode="widthFix"></image>
+            <view>详细地址可以点击图片打开导航</view>
+        </view>
+        <view class="panel hr">
+            <vcomment></vcomment>
+        </view>
+    </view>
+    
+</view>

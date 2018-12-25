@@ -1,5 +1,10 @@
 {
+    "enablePullDownRefresh": true,
     "usingComponents": {
-        "vsearch": "/components/VSearch/VSearch"
+        "vsearch": "/components/VSearch/VSearch",
+        "header": "/components/header/header",
+        "vtabs": "/components/VTabs/VTabs",
+        "vcard": "/components/VCard/VCard",
+        "vload": "/components/VLoad/VLoad"
     }
 }
