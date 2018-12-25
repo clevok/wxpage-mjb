@@ -2,7 +2,6 @@
 	"pages": [
 		"pages/index",
 		"pages/channel",
-        "pages/play",
         "pages/place/place",
 		"pages/user/user",
 		"pages/user/index"

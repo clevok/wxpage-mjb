@@ -15,43 +15,43 @@ Page.P('index', Page.P.mixins(searchList, searchPanelList , {
 		console.log('[pages/index]  程序启动：')
 	},
 	onLoad: function() {
-console.log(wx.getStorageSync('pname'));
+		console.log(wx.getStorageSync('pname'));
         
-        wx.login({
-            success:(res) => {
-                console.log(res);
-            }
-        })
-        this.getList();
-    },
-    getList() {
-        let param = {
-            page_index: this.data.page
-        };
+		wx.login({
+			success:(res) => {
+				console.log(res);
+			}
+		})
+		this.getList();
+	},
+	getList() {
+		let param = {
+			page_index: this.data.page
+		};
 
-        this.searchList(wx.$api.place.getList, param)
-        .then(({page_index, page_size, total_count, result})=> {
-            this.setData({
-                list: this.data.list.concat(result)
-            });
-            this.afterSearch(page_index, Math.ceil(total_count/page_size), total_count);
-        });
-    },
-    methods: {
+		this.searchList(wx.$api.place.getList, param)
+			.then(({page_index, page_size, total_count, result})=> {
+				this.setData({
+					list: this.data.list.concat(result)
+				});
+				this.afterSearch(page_index, Math.ceil(total_count/page_size), total_count);
+			});
+	},
+	methods: {
 
-    },
-    tapPlace() {
-        console.log('555')
-        this.$route('place/place?cid=123')
-        this.$preload('place?cid=456')
-        // this.$preload('place/place?vid=xxx&cid=xxx');
-    },
+	},
+	tapPlace() {
+		console.log('555')
+		this.$route('place/place?cid=123')
+		this.$preload('place?cid=456')
+		// this.$preload('place/place?vid=xxx&cid=xxx');
+	},
 	onAwake: function (t) {
-    },
-    onReachBottom() {
-        this.Reset();
-    },
-    onPullDownRefresh() {
-        this.Refresh();
-    }
+	},
+	onReachBottom() {
+		this.Reset();
+	},
+	onPullDownRefresh() {
+		this.Refresh();
+	}
 }))

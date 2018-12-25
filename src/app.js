@@ -8,25 +8,26 @@ wx.$actions = actions;
 
 App.A({
 	config: {
-		route: ['pages/$page', 'page/user/$page' , 'subpack/$page'],
+		route: ['/pages/$page', '/page/user/$page' ],
 		resolvePath: function (name) {
 			debugger
+			return name;
 			return '/pages/' + name
 		}
-    },
-    globalData: {
-        getSystemInfo: null,
+	},
+	globalData: {
+		getSystemInfo: null,
 
-    },
+	},
 	onLaunch: function(opts) {
-        this.getSystemInfo();
+		this.getSystemInfo();
 	},
 	onShow: function () {
 		console.log('App onShow')
-    },
-    /**
+	},
+	/**
      * 记录系统信息
      */
-    getSystemInfo: app.getSystemInfo
+	getSystemInfo: app.getSystemInfo
 
 })

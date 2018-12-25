@@ -26,7 +26,6 @@ module.exports = {
 					return mainRoute.replace('$page', name)
 				}
 				_conf.nameResolve = function (url) {
-					debugger
 					var n = ''
 					routes.some(function (reg) {
 						var m = reg.exec(url)
@@ -35,6 +34,7 @@ module.exports = {
 							return true
 						}
 					})
+					debugger
 					return n
 				}
 

@@ -40,9 +40,10 @@
 			"current": 0,
 			"list": [
 				{
-					"id": -1,
-					"name": "user下的index",
-					"pathName": "pages/user/index"
+					"id": 0,
+					"name": "channel",
+					"pathName": "pages/user/index",
+					"query": ""
 				}
 			]
 		}
