@@ -20,7 +20,7 @@ exports.ArtsStatus = Object.freeze({
 	6: {text: '电影资源', value: 6}
 });
 
-exports.demo1 = 'sfsafsdf'
+exports.demo1 = 'demo1'
 exports.demo2 = {
 	name: 'demo2'
 }

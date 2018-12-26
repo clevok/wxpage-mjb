@@ -1,5 +1,5 @@
 # wxpage-mjb
-mjb-wxpag
+笔记
 
 ## 分析
 
@@ -9,7 +9,23 @@ mjb-wxpag
 
 1. 加载小程序
     
-    除了下载, 环境等等,`小程序所有的页面都一开始就会被加载!!!` 注意了,这个地方可以入手, wxpage就抓住了这一点
+    除了下载, 环境等等,`小程序所有的页面都一开始就会被加载!!!` 注意了,这个地方可以入手, wxpage,wepy, 预加载抓住了这一点
+
+    我们可以在任意一个js中, 执行打印, 或者建立事件监听, 都是可以执行到的, 需要注意的是, page对象的this,是不同的,因为此this非彼this
+
+    - index.js event.on('load', ()=>{ console.log('我是index') });
+    - user.js event.on('load', ()=>{ console.log('我是user') });
+    - setting.js event.on('load', ()=>{ console.log('我是setting') });
+    
+    小程序加载 在 index.js 
+        
+        onLoad() {
+            event.emit('load');
+            // 我是index;
+            // 我是user;
+            // 我是setting;
+        }
+
 
 2. 页面加载完后,`Page()` 对象会被 `深拷贝` 维护在一个 页面对象中, 在加载的时候读取出来, 存入 [页面栈中](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html) getCurrentPages(我猜的)
 
@@ -22,46 +38,64 @@ mjb-wxpag
         name: 'demo2'
     }
 
+---
+
     // A页面
     methods: {
         router: () {
             config.demo1 = '更改'
             config.demo2.name = '更改'
-            router('B');
+            event.emit('router:B'); // 我用事件监听来跳转
         }
     }
 
+---
+
+### 验证 Page 加载后 Page.this与原页面对象item对象是否还有联系
+
     // B页面
     let config = require('../config');
+    event.on('router:B', ()=> {
+        // item一直是正常引用状态
+        router('B'); // 跳转到B
+    });
 
-    Page({
+    let item = {
         data: {
             name: wx.getStorageSync('page'),
-            demo1: config.demo1,
-            demo2: config.demo2,
+            demo1: config.demo1, // 不收config影响, 因为是按值类型
+            demo2: config.demo2, // 影响 按引用
             demo2.name: config.demo2.name
-        }
-    })
+        },
+        onLoad () {
+            
+            this === item; // false 以及经过深拷贝了
+            this.data.demo2 === item.data.demo2 // false 深拷贝
 
-通过A页面更改config的属性,跳转到B页面,得出结论
-
-    Page({
-        data: {
-            name: '',
-            demo1: 'demo1',
-            demo2: config.demo2,
-            demo2.name: 'demo2'
+            item.data.demo2 === config.demo2 // ture item对象依然存在的
+            this.data.demo2 === config.demo2 // false 深拷贝
         }
-    })
+    };
+    Page(item);
+
+经测试,我们发现, item是依然存在的, 然后 Page对象与 item已经断开了联系, 包括 Page.data.demo2 也和config.demo2断开了联系
+推断, 在进入B页面的时候,此时B页面的 Page(pageObject) 经过类似 `深拷贝` 复制 item 对象, 然后开始渲染
+
+> 因此, 我们在跳转 router 前, config.demo2.name = '更改', 对page是有影响的, 因为那时候小程序页面还没有加载, 更改config, 同步影响到item.data, 然后跳转, 小程序深拷贝item一个页面, 此时的 demo2以及更改了。
+这里可以来个快捷加载咯,要注意了,` 要先改, 在引用的页面加载之前才有效果,` 比如我A页面直接把list保存在config中，B页面data直接是引用config.list, 之后B页面加载时候, 请求更新 B.page.data.list更新, config.list也记得更新一下.
+
+
+### 那么 wxpage,wepy的preload是怎么用呢
+上面的那个方式,必须保证页面跳转前 `数据`已经加载完了,再跳转，才能读取深拷贝改变后的data, 这样就很不好了
+所以, 该框架采用, 跳转的时候, 就请求加载数据,封装成Promise, 保存在内存（变量），等B页面加载完后，onLoad() 再读取这个变量，赋值到data
+,说白了，就是提前请求。
+然后，为了分离代码，框架又 监听了事件
+
+    B页面
 --- 
 
 
 
-大致就是这样的,你注册的所有的页面（Page）会被`深拷贝`维护在一个列表中
-
-
-
-每当加载到那个页面, 把页面给取出来, 这里的页面, 我仅仅指的 是 Page()内的对象
 
 ### 注册页面
 在 page.js 中 定义了 WXPage 的方法, 这个是 注册页面的主要的方法
