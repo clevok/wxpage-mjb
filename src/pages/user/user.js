@@ -27,9 +27,6 @@ var item = {
 	},
 	onLoad: function() {
 		console.log(this);
-		console.log(item);
-		console.log(item === this);
-		console.log(item.data.demo2 === config.demo2);
 	},
 	onShow: function () {
 		console.log('[pages/play] 页面展示')
