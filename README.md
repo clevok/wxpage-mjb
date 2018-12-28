@@ -1,5 +1,5 @@
 # 微信小程序页面加载解析, wxpage预加载分析
-
+[gitHub地址](https://github.com/clevok/wxpage-mjb)
 ## 前言
 
 关于小程序加载问题, 看过很多文章
@@ -133,6 +133,8 @@
 
 
 ## wxpage 解析 未完
+
+### Page
 在 page.js 中 定义了 WXPage 的方法, 这个是 注册页面的主要的方法
 
 
@@ -146,6 +148,8 @@
 options会被加入一些特殊的属性
 
 - name 页面名（用来通知的路径）
+- extendPageBefore
+
 - onNavigate({url, query}) 监听 navigateTo:${name}, redirectTo:${name}, switchTab:${name}, reLaunch:${name} 事件
 - onPreload({url, query}) 监听 preload:${name} 事件
 - $state (不管他)
@@ -156,3 +160,38 @@ options会被加入一些特殊的属性
 - $on
 - $emit
 - $off
+
+- $属性 用于父子组件关联，引用的是brideg.mount
+    我们先看component.js 组件注册的时候, attached的时候, 会给组件注册$id(自增id)属性, 并记录到 refs对象中, 并向上触发事件
+
+        refs[id] = this
+
+        this.triggerEvent('ing', {
+			id: this.$id,
+			type: 'attached'
+		})
+
+    再看定义组件的方法
+
+        <custom-component ref="name" binding="$" />
+
+    然后我们看看`$`方法写了什么
+    就是监听了两种type,`attached`和 `event:call`, event:call是在组件实现 $call的时候调用(调用主页面方法)
+    `attached`会调用`getRef`, 其实就是根据 id 获取组件对象, 然后把记录到 页面 this.refs[ 组件名(ref) ] , 再调用组件的 _$attached 保存 `$root` 和 `$parent`
+
+        component.getRef = function (id) {
+            return refs[id]
+        }
+
+- $setData
+- onAwake app:sleep 事件
+- extendPageAfter
+
+
+### App
+其实没啥东西, 需要知道的是, app所有的属性都被额外保存在 conf中, 不过 `resolvePath` 和 `route` 会特殊保存
+Page中的 extendPageAfter, extendPageBefore 也是在这里拿到的
+
+---
+
+看不下去了, 还有好多

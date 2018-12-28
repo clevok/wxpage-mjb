@@ -63,6 +63,7 @@ Message.prototype.emit = function (evtType) {
 }
 Message.prototype.assign = function (target) {
 	var msg = this;
+	// ERROR msg[wait] is underfined
 	['on', 'off', 'wait', 'emit', 'assign'].forEach(function (name) {
 		var method = msg[name]
 		target[name] = function () {

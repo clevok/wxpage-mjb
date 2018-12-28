@@ -18,6 +18,7 @@ var refs = {}
 var cid = 0
 function component(def) {
 	if (!def) {
+		// ERROR name is underfined
 		console.error(`Illegal component options [${name || 'Anonymous'}]`)
 		def = {}
 	}
@@ -112,6 +113,7 @@ function component(def) {
 component.getRef = function (id) {
 	return refs[id]
 }
+// ERROR 下面这个的意义? 是不是和page line 21 重复了
 bridge.ref(component.getRef)
 component.dispatcher = function (d) {
 	dispatcher = d
