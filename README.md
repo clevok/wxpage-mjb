@@ -134,6 +134,8 @@
 
 ## wxpage 解析 未完
 
+redirector 是 路由的事件, dispatcher 是 所有的page
+
 ### Page
 在 page.js 中 定义了 WXPage 的方法, 这个是 注册页面的主要的方法
 
