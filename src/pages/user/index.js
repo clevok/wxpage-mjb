@@ -13,9 +13,18 @@ Page.P('index', {
 
 	},
 	onPlay: function () {
-		wx.setStorageSync('user', {name:555,age:777});
-		event.emit('change');
-		// this.$route('/pages/user/user?cid=123')
+		// wx.setStorageSync('user', {name:555,age:777});
+		// event.emit('change');
+		this.$route('/pages/user/user?cid=123')
+	},
+	redirect () {
+		this.$redirect('/pages/user/user')
+	},
+	route () {
+		this.$route('/pages/user/user')
+	},
+	navigate() {
+		this.$navigate('/pages/user/user')
 	},
 	onPlayNav: function () {
 		wx.navigateTo({

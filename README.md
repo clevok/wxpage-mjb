@@ -147,21 +147,21 @@
 注册页面的时候
 options会被加入一些特殊的属性
 
-- name 页面名（用来通知的路径）
-- extendPageBefore
+- **name** 页面名（用来通知的路径）
+- **extendPageBefore**
 
-- onNavigate({url, query}) 监听 navigateTo:${name}, redirectTo:${name}, switchTab:${name}, reLaunch:${name} 事件
-- onPreload({url, query}) 监听 preload:${name} 事件
-- $state (不管他)
-- $emitter 一个通知
+- **onNavigate({url, query})** 监听 navigateTo:${name}, redirectTo:${name}, switchTab:${name}, reLaunch:${name} 事件
+- **onPreload({url, query})** 监听 preload:${name} 事件
+- **$state** (不管他)
+- **$emitter** 一个通知
 
-- 然后 是 bridge.methods 下一大属性,$cache, $session, $preload 等等
+- 然后 是 **bridge.methods** 下一大属性,$cache, $session, $preload 等等
 
-- $on
-- $emit
-- $off
+- **$on**
+- **$emit**
+- **$off**
 
-- $属性 用于父子组件关联，引用的是brideg.mount
+- **$属性** 用于父子组件关联，引用的是brideg.mount
     我们先看component.js 组件注册的时候, attached的时候, 会给组件注册$id(自增id)属性, 并记录到 refs对象中, 并向上触发事件
 
         refs[id] = this
@@ -183,14 +183,52 @@ options会被加入一些特殊的属性
             return refs[id]
         }
 
-- $setData
-- onAwake app:sleep 事件
-- extendPageAfter
+- **$setData**
+- **onAwake** app:sleep 事件
+- **extendPageAfter**
 
 
 ### App
-其实没啥东西, 需要知道的是, app所有的属性都被额外保存在 conf中, 不过 `resolvePath` 和 `route` 会特殊保存
+需要知道的是, app所有的属性都被额外保存在 conf中, 不过 `resolvePath` 和 `route` 会特殊保存
 Page中的 extendPageAfter, extendPageBefore 也是在这里拿到的
+
+
+
+### router
+官方案例
+
+    redirect(pagename[, config])
+
+这个东西我好绕呀
+
+执行 this.$router 调用到 bridge.route 执行到 redirector.route 的方法，这时候正式跳转, 还发出了一个事件
+
+	exportee.emit('navigateTo', cfg.url)
+    
+上面事件，在 page.js 通过 执行 brideg.redirectDelegate 来监听 上面的事件
+
+    // page.js
+    bridge.redirectDelegate(redirector, dispatcher)
+    
+    // brideg.js
+    redirectDelegate: function (emitter, dispatcher) {
+		;['navigateTo', 'redirectTo', 'switchTab', 'reLaunch'].forEach(function (k) {
+			emitter.on(k, function (url) {
+				var name = getPageName(url)
+				name && dispatcher.emit(k+':'+name, url, fns.queryParse(url.split('?')[1]))
+			})
+		})
+	}
+
+此时又发了个事件， 这个事件在 page.js option.onNavigate 中监听了所有
+
+    dispatcher.on('navigateTo:'+name, onNavigateHandler)
+	dispatcher.on('redirectTo:'+name, onNavigateHandler)
+	dispatcher.on('switchTab:'+name, onNavigateHandler)
+	dispatcher.on('reLaunch:'+name, onNavigateHandler)
+
+这个地方存疑, 因为 `redirector.route` 只发出 `navigateTo` 这一个事件
+
 
 ---
 

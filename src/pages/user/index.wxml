@@ -6,12 +6,18 @@
 		binddbtap="onTouchend"
 		binddbclick="onTTap"
 	></view>
+
 	<button bindtap="onPlay">Go go play page($route)</button>
+	<button bindtap="route">route</button>
+	<button bindtap="redirect">redirect</button>
+	<button bindtap="navigate">navigate</button>
+
 	<button bindtap="$bindRoute"
 		data-url="/pages/play?cid=1"
 		data-before="onClickBefore"
 		data-after="onClickAfter"
 	>Go go play page(bindRoute)</button>
+	
 	<button bindtap="onPlayNav">Go go play page(wx.navigateTo)</button>
 
 	<navigator url="/pages/play?cid=12"><button>Go go play page(navigator:navigate)</button></navigator>
