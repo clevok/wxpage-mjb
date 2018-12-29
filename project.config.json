@@ -8,11 +8,11 @@
 		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
-		"minified": true,
+		"minified": false,
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.3.0",
+	"libVersion": "2.0.2",
 	"appid": "wxdbd892459da31f0e",
 	"projectname": "wxpage",
 	"debugOptions": {

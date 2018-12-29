@@ -1,7 +1,8 @@
-const wxpage = require('./core/page');
-const api =  require('./core/api/index');
-const app =  require('./mixins/app');
-const actions =  require('./core/actions');
+require('./core/wx');
+require('./core/page');
+const api = require('./core/api/index');
+const app = require('./mixins/app');
+const actions = require('./core/actions');
 
 wx.$api = api;
 wx.$actions = actions;

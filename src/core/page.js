@@ -129,6 +129,9 @@ function WXPage(name, option) {
 			option.onAppShow.apply(option, args)
 		})
 	}
+	if (option.mixins) {
+		mixins(option, ...option.mixins);
+	}
 
 	// extend page config
 	var extendPageAfter = _conf.get('extendPageAfter')
@@ -202,7 +205,6 @@ WXPage.message = message
 WXPage.cache = cache
 WXPage.fns = fns
 WXPage.getPageName = bridge.getPageName
-WXPage.mixins = mixins
 /**
  * Config handler
  */

@@ -1,27 +1,18 @@
-
+const regeneratorRuntime = require("../core/regeneratorRuntime.js")
 const searchList = require('../mixins/searchPanel');
 const searchPanelList = require('../mixins/searchPanelList');
 const {placeTyps} = require('../core/config');
 
-Page.P('index', Page.P.mixins(searchList, searchPanelList , {
+Page.P('index', {
 	data: {
-		placeTyps: placeTyps,
-		lname: null
+		placeTyps: placeTyps
 	},
+	mixins: [searchList, searchPanelList],
 	onPageLaunch: function () {
-		console.log('[pages/index] 页面启动：')
 	},
 	onAppLaunch: function (opts) {
-		console.log('[pages/index]  程序启动：')
 	},
-	onLoad: function() {
-		console.log(wx.getStorageSync('pname'));
-        
-		wx.login({
-			success:(res) => {
-				console.log(res);
-			}
-		})
+	async onLoad () {
 		this.getList();
 	},
 	getList() {
@@ -41,10 +32,6 @@ Page.P('index', Page.P.mixins(searchList, searchPanelList , {
 
 	},
 	tapPlace() {
-		console.log('555')
-		this.$route('place/place?cid=123')
-		this.$preload('place?cid=456')
-		// this.$preload('place/place?vid=xxx&cid=xxx');
 	},
 	onAwake: function (t) {
 	},
@@ -54,4 +41,4 @@ Page.P('index', Page.P.mixins(searchList, searchPanelList , {
 	onPullDownRefresh() {
 		this.Refresh();
 	}
-}))
+})
