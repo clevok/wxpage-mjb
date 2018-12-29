@@ -50,13 +50,13 @@ function component(def) {
 	})
 	def.properties = fns.extend({}, def.properties, {
 		'ref': {
-    	type: String,
+			type: String,
 			value: '',
 			observer: function(next) {
-      	/**
-      	 * 支持动态 ref
-      	 */
-      	if (this._$ref !== next) {
+			/**
+			 * 支持动态 ref
+			 */
+				if (this._$ref !== next) {
 					var $refs = this.$parent && this.$parent.$refs
 					if ($refs) {
 						let ref = $refs[this._$ref]
@@ -66,7 +66,7 @@ function component(def) {
 							$refs[next]
 						}
 					}
-      	}
+				}
 			}
 		},
 	})

@@ -23,7 +23,9 @@ function route(type, cfg, args) {
 		pending = false
 	}, 2000)
 	// ERROR 只发出一个事件
-	exportee.emit('navigateTo', cfg.url)
+	// exportee.emit('navigateTo', cfg.url)
+	// FIXED
+	exportee.emit(type, cfg.url)
 
 	// 会存在不兼容接口，例如：reLaunch
 	if (wx[type]) {

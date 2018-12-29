@@ -144,7 +144,6 @@ function back(delta) {
 }
 function preload(url){
 	var name = getPageName(url)
-	debugger
 	name && dispatcher && dispatcher.emit('preload:'+name, url, fns.queryParse(url.split('?')[1]))
 }
 function getPage() {
