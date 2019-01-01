@@ -10,8 +10,9 @@ wx.$actions = actions;
 
 App.A({
 	config: {
-		route: ['/pages/$page', '/page/user/$page' ],
+		route: ['/pages/$page'],
 		resolvePath: function (name) {
+            debugger
 			return '/pages/' + name
 		}
 	},

@@ -4,7 +4,7 @@ const searchPanelList = require('../mixins/searchPanelList');
 const { placeTyps } = require('../core/config');
 const { router } = require('../router');
 
-Page.P(router.page.index, {
+Page.P(router.pages.index, {
 	data: {
 		placeTyps: placeTyps
 	},

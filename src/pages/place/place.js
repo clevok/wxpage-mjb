@@ -1,6 +1,6 @@
 const { router } = require('../../router');
 
-Page.P(router.page.place.index, {
+Page.P(router.pages.place.index, {
 	data: {
 		imgUrls: [
 			'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',

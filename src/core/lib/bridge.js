@@ -104,11 +104,12 @@ module.exports = {
 function route({ type }) {
 	// url: $page[?name=value]
 	return function (url, config) {
-		var parts = url.split(/\?/)
-		var pagepath = parts[0]
-		if (/^[\w\-]+$/.test(pagepath)) {
-			pagepath = (conf.get('customRouteResolve') || conf.get('routeResolve'))(pagepath)
-		}
+		var parts = url.split(/\?/);
+		var pagepath = getTargetRouter.call(this, parts[0]);
+		// DELETE 移除
+		// if (/^[\w\-]+$/.test(pagepath)) {
+		// 	pagepath = (conf.get('customRouteResolve') || conf.get('routeResolve'))(pagepath)
+		// }
 		if (!pagepath) {
 			throw new Error('Invalid path:', pagepath)
 		}
@@ -132,7 +133,7 @@ function clickDelegate(type) {
 			if (ctx && before && ctx[before]) ctx[before].call(ctx, e)
 		} finally {
 			if (!url) return
-			_route(url)
+			_route.call(ctx, url);
 			if (ctx && after && ctx[after]) ctx[after].call(ctx, e)
 		}
 	}
@@ -176,7 +177,7 @@ function take(key) {
  * @param {*} target 目的地 url
  * @return {string} 返回指定的路径 非 / 开头
  */
-function getTargetRouter (target = '') {
+function getTargetRouter(target = '') {
 	if (!target || target.indexOf('/') === 0) {
 		return target;
 	}
@@ -186,7 +187,7 @@ function getTargetRouter (target = '') {
 			return this.name;
 		}
 		let get = getPage();
-		return get.router || get.__route__;
+		return '/' + (get.router || get.__route__);
 	})();
 
 	// 将 ./ 替换成 ../ 将 router直接开头的前面加 ../ 因为 nodejs的 path.join模块

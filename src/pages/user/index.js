@@ -2,7 +2,7 @@ let event = require('../../core/event');
 let config = require('../../core/config');
 const {router} = require('../../router');
 
-Page.P(router.page.user.index, {
+Page.P(router.pages.user.index, {
 	data: {},
 	onAppLaunch: function (opts) {
 		console.log('[pages/index]  程序启动：', opts)

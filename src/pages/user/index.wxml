@@ -13,7 +13,7 @@
 	<button bindtap="navigate">navigate</button>
 
 	<button bindtap="$bindRoute"
-		data-url="/pages/play?cid=1"
+		data-url="user?cid=1"
 		data-before="onClickBefore"
 		data-after="onClickAfter"
 	>Go go play page(bindRoute)</button>

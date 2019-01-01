@@ -1,18 +1,18 @@
 exports.router = {
-	page: {
-		index: 'page/index',
+	pages: {
+		index: '/pages/index',
 		user: {
-            index: 'page/user/index',
-			user: 'page/user/user'
+            index: '/pages/user/index',
+			user: '/pages/user/user'
 		},
 		setting: {
-			index: 'page/setting'
+			index: '/pages/setting'
 		},
 		place: {
-			index: 'page/place/place'
+			index: '/pages/place/place'
 		},
 		create: {
-			place: 'page/place/create'
+			place: '/pages/place/create'
 		}
 	}
 }

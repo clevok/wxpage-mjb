@@ -3,7 +3,7 @@ let event = require('../../core/event');
 let config = require('../../core/config');
 const {router} = require('../../router');
 
-Page.P(router.page.user.user, {
+Page.P(router.pages.user.user, {
 	data: {
 		name: wx.getStorageSync('user'),
 		event: event,
