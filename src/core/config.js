@@ -1,3 +1,4 @@
+
 exports.placeTyps = Object.freeze({
 	// {text: '全部', value: 0}, 
 	1: {text: '酒吧', value: 1}, 
@@ -23,4 +24,13 @@ exports.ArtsStatus = Object.freeze({
 exports.demo1 = 'demo1'
 exports.demo2 = {
 	name: 'demo2'
+}
+const lib = {
+	'detail' : {age: 3}
+}
+exports.getStatus = function (name) {
+    return lib[name]||{};
+}
+exports.setStatus = (name, value) =>  {
+    lib[name] = value;
 }

@@ -12,7 +12,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.0.2",
+	"libVersion": "1.9.8",
 	"appid": "wxdbd892459da31f0e",
 	"projectname": "wxpage",
 	"debugOptions": {

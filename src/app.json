@@ -1,7 +1,6 @@
 {
 	"pages": [
 		"pages/index",
-		"pages/channel",
         "pages/place/place",
 		"pages/user/user",
 		"pages/user/index"
@@ -24,7 +23,7 @@
                 "selectedIconPath": "static/images/address-act.png"
             },
             {
-                "pagePath": "pages/channel",
+                "pagePath": "pages/user/index",
                 "text": "我的",
                 "iconPath": "static/images/user.png",
                 "selectedIconPath": "static/images/user-act.png"

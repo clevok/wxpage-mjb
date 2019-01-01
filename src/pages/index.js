@@ -1,18 +1,19 @@
 const regeneratorRuntime = require("../core/regeneratorRuntime.js")
 const searchList = require('../mixins/searchPanel');
 const searchPanelList = require('../mixins/searchPanelList');
-const {placeTyps} = require('../core/config');
+const { placeTyps } = require('../core/config');
+const { router } = require('../router');
 
-Page.P('index', {
+Page.P(router.page.index, {
 	data: {
 		placeTyps: placeTyps
 	},
 	mixins: [searchList, searchPanelList],
 	onPageLaunch: function () {
 	},
-	onAppLaunch: function (opts) {
+	onAppLaunch: function () {
 	},
-	async onLoad () {
+	async onLoad() {
 		this.getList();
 	},
 	getList() {
@@ -21,11 +22,11 @@ Page.P('index', {
 		};
 
 		this.searchList(wx.$api.place.getList, param)
-			.then(({page_index, page_size, total_count, result})=> {
+			.then(({ page_index, page_size, total_count, result }) => {
 				this.setData({
 					list: this.data.list.concat(result)
 				});
-				this.afterSearch(page_index, Math.ceil(total_count/page_size), total_count);
+				this.afterSearch(page_index, Math.ceil(total_count / page_size), total_count);
 			});
 	},
 	methods: {

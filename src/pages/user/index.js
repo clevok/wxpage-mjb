@@ -1,27 +1,30 @@
 let event = require('../../core/event');
 let config = require('../../core/config');
+const {router} = require('../../router');
 
-Page.P('index', {
+Page.P(router.page.user.index, {
 	data: {},
 	onAppLaunch: function (opts) {
 		console.log('[pages/index]  程序启动：', opts)
 	},
 	onLoad: function() {
-		// this.$preload('/pages/user/user?cid=123');
+		this.$preload('user?cid=123');
 	},
 	onReady: function () {
 
 	},
 	onPlay: function () {
 		// wx.setStorageSync('user', {name:555,age:777});
-		// event.emit('change');
-		this.$route('/pages/user/user?cid=123')
+		event.emit('change');
+		// this.$route('/pages/user/user?cid=123')
 	},
 	redirect () {
 		this.$redirect('/pages/user/user')
 	},
 	route () {
-		this.$route('/pages/user/user')
+        wx.navigateTo({
+            url: '../place/place'
+        })
 	},
 	navigate() {
 		this.$navigate('/pages/user/user')

@@ -2,11 +2,12 @@ var cache = require('./cache')
 var redirector = require('./redirector')
 var conf = require('./conf')
 var fns = require('./fns')
-var navigate = route({type: 'navigateTo'})
-var redirect = route({type: 'redirectTo'})
-var switchTab = route({type: 'switchTab'})
-var reLaunch = route({type: 'reLaunch'})
-var routeMethods = {navigate, redirect, switchTab, reLaunch}
+var path = require('./path');
+var navigate = route({ type: 'navigateTo' })
+var redirect = route({ type: 'redirectTo' })
+var switchTab = route({ type: 'switchTab' })
+var reLaunch = route({ type: 'reLaunch' })
+var routeMethods = { navigate, redirect, switchTab, reLaunch }
 var bindNavigate = clickDelegate('navigate')
 var bindRedirect = clickDelegate('redirect')
 var bindSwitch = clickDelegate('switchTab')
@@ -25,29 +26,29 @@ module.exports = {
 	},
 	mount: function (e) {
 		var payload = e.detail
-		switch(payload.type) {
-		case 'attached':
-			let ref = getRef && getRef(payload.id)
-			if (!ref) return
+		switch (payload.type) {
+			case 'attached':
+				let ref = getRef && getRef(payload.id)
+				if (!ref) return
 
-			let refName = ref._$ref
-			if (refName && this.$refs) {
-				this.$refs[refName] = ref
-			}
-			ref._$attached(this)
-			break
-		case 'event:call':
-			let method = this[payload.method]
-			method && method.apply(this, payload.args)
-		default:
-			break
+				let refName = ref._$ref
+				if (refName && this.$refs) {
+					this.$refs[refName] = ref
+				}
+				ref._$attached(this)
+				break
+			case 'event:call':
+				let method = this[payload.method]
+				method && method.apply(this, payload.args)
+			default:
+				break
 		}
 	},
 	redirectDelegate: function (emitter, dispatcher) {
 		;['navigateTo', 'redirectTo', 'switchTab', 'reLaunch'].forEach(function (k) {
 			emitter.on(k, function (url) {
 				var name = getPageName(url)
-				name && dispatcher.emit(k+':'+name, url, fns.queryParse(url.split('?')[1]))
+				name && dispatcher.emit(k + ':' + name, url, fns.queryParse(url.split('?')[1]))
 			})
 		})
 	},
@@ -100,7 +101,7 @@ module.exports = {
 /**
  * Navigate handler
  */
-function route ({type}) {
+function route({ type }) {
 	// url: $page[?name=value]
 	return function (url, config) {
 		var parts = url.split(/\?/)
@@ -142,9 +143,10 @@ function back(delta) {
 		delta: delta || 1
 	})
 }
-function preload(url){
-	var name = getPageName(url)
-	name && dispatcher && dispatcher.emit('preload:'+name, url, fns.queryParse(url.split('?')[1]))
+function preload(url) {
+	var name = getTargetRouter.call(this, url.split('?')[0]);
+	url = getTargetRouter.call(this, url);
+	name && dispatcher && dispatcher.emit('preload:' + name, url, fns.queryParse(url.split('?')[1]))
 }
 function getPage() {
 	return getCurrentPages().slice(0).pop()
@@ -153,18 +155,51 @@ function getPageName(url) {
 	var m = /^[\w\-]+(?=\?|$)/.exec(url)
 	return m ? m[0] : conf.get('nameResolve')(url)
 }
-function curPageName () {
+function curPageName() {
 	var route = getPage().route
 	if (!route) return ''
 	return getPageName(route)
 }
-function put (key, value) {
+function put(key, value) {
 	channel[key] = value
 	return this
 }
-function take (key) {
+function take(key) {
 	var v = channel[key]
 	// 释放引用
 	channel[key] = null
 	return v
+}
+
+/**
+ * 符合 微信 正常路径链接, 返回 对应的路径url
+ * @param {*} target 目的地 url
+ * @return {string} 返回指定的路径 非 / 开头
+ */
+function getTargetRouter (target = '') {
+	if (!target || target.indexOf('/') === 0) {
+		return target;
+	}
+	// 优先提取name
+	let page = (() => {
+		if (this && this.name) {
+			return this.name;
+		}
+		let get = getPage();
+		return get.router || get.__route__;
+	})();
+
+	// 将 ./ 替换成 ../ 将 router直接开头的前面加 ../ 因为 nodejs的 path.join模块
+	let header = target.split('/')[0];
+	if (header === '.') {
+		target = target.replace('./', '../');
+	}
+	else if (header === '..') {
+		target = target = '../' + target;
+	}
+	else if (header !== '..') {
+		// 直接的路径
+		target = target = '../' + target;
+	}
+	return path.join(page, target);
 }

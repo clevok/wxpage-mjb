@@ -25,7 +25,10 @@ function WXPage(name, option) {
 	if (fns.type(name) == 'object') {
 		option = name
 		name = option.name || '_unknow'
+	} else if (fns.type('name') === 'string') {
+		option.name = name || '_unknow'
 	}
+
 	// page internal message
 	var emitter = new message()
 
@@ -35,23 +38,23 @@ function WXPage(name, option) {
 
 	// mixin component defs
 	// C.use(option, option.comps, `Page[${name}]`, emitter)
-	if (option.onNavigate){
+	if (option.onNavigate) {
 		let onNavigateHandler = function (url, query) {
-			option.onNavigate({url, query})
+			option.onNavigate({ url, query })
 		}
 		console.log(`Page[${name}] define "onNavigate".`)
-		dispatcher.on('navigateTo:'+name, onNavigateHandler)
-		dispatcher.on('redirectTo:'+name, onNavigateHandler)
-		dispatcher.on('switchTab:'+name, onNavigateHandler)
-		dispatcher.on('reLaunch:'+name, onNavigateHandler)
+		dispatcher.on('navigateTo:' + name, onNavigateHandler)
+		dispatcher.on('redirectTo:' + name, onNavigateHandler)
+		dispatcher.on('switchTab:' + name, onNavigateHandler)
+		dispatcher.on('reLaunch:' + name, onNavigateHandler)
 	}
 	/**
 	 * Preload lifecycle method
 	 */
-	if (option.onPreload){
+	if (option.onPreload) {
 		console.log(`Page[${name}] define "onPreload".`)
-		dispatcher.on('preload:'+name, function (url, query) {
-			option.onPreload({url, query})
+		dispatcher.on('preload:' + name, function (url, query) {
+			option.onPreload({ url, query })
 		})
 	}
 	/**
@@ -88,7 +91,7 @@ function WXPage(name, option) {
 	option.$setData = function (prefix, data) {
 		if (fns.type(prefix) == 'string') {
 			var props = {}
-			fns.objEach(data, function (k,v) {
+			fns.objEach(data, function (k, v) {
 				props[prefix + '.' + k] = v
 			})
 			return this.setData(props)
@@ -99,7 +102,7 @@ function WXPage(name, option) {
 	/**
 	 * AOP life-cycle methods hook
 	 */
-	option.onLoad = fns.wrapFun(option.onLoad, function() {
+	option.onLoad = fns.wrapFun(option.onLoad, function () {
 		// After onLoad, onAwake is valid if defined
 		option.onAwake && message.on('app:sleep', (t) => {
 			option.onAwake.call(this, t)
@@ -147,7 +150,7 @@ bridge.redirectDelegate(redirector, dispatcher)
 /**
  * Application wrapper
  */
-function Application (option) {
+function Application(option) {
 
 	if (!option.config || !option.config.route || !option.config.route.length) {
 		throw new Error('config.route is necessary !')
@@ -166,7 +169,7 @@ function Application (option) {
 		ctx = this
 	})
 	if (option.onAwake) {
-		message.on('app:sleep', function(t){
+		message.on('app:sleep', function (t) {
 			option.onAwake.call(ctx, t)
 		})
 	}
@@ -179,7 +182,7 @@ function appLaunchHandler() {
 	isAppLaunched = [].slice.call(arguments)
 	message.emit('app:launch', isAppLaunched)
 }
-function appShowHandler () {
+function appShowHandler() {
 	try {
 		if (!isAppShowed) {
 			// call onAppShow only once
