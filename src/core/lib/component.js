@@ -4,6 +4,7 @@ var fns = require('./fns.js')
 var bridge = require('./bridge.js')
 var cache = require('./cache')
 var conf = require('./conf')
+var mixins = require('./mixins')
 var redirector = require('./redirector')
 var message = require('./message')
 var modules = {
@@ -18,13 +19,19 @@ var refs = {}
 var cid = 0
 function component(def) {
 	if (!def) {
-		// ERROR name is underfined
-		console.error(`Illegal component options [${name || 'Anonymous'}]`)
+		console.error(`Illegal component options.`)
 		def = {}
 	}
 	// extend page config
 	var extendComponentBefore = conf.get('extendComponentBefore')
 	extendComponentBefore && extendComponentBefore(def, modules)
+
+	if (def.mixins) {
+		if (fns.type(def.mixins) !== 'array' ) {
+			def.mixins = [def.mixins]
+		}
+		mixins(def, ...def.mixins);
+	}
 
 	def.created = fns.wrapFun(def.created, function () {
 		bridge.methods(this, dispatcher)

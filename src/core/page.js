@@ -24,9 +24,12 @@ C.dispatcher(dispatcher)
 function WXPage(name, option) {
 	if (fns.type(name) == 'object') {
 		option = name
-		name = option.name || '_unknow'
+		name = option.name || null;
 	} else if (fns.type('name') === 'string') {
-		option.name = name || '_unknow'
+		option.name = name || null;
+	}
+	if (!option.name || option.name.indexOf('/') !== 0) {
+		throw new Error('Page.Name不存在或非绝对路径')
 	}
 
 	// page internal message
@@ -39,8 +42,8 @@ function WXPage(name, option) {
 	// mixin component defs
 	// C.use(option, option.comps, `Page[${name}]`, emitter)
 	if (option.onNavigate) {
-		let onNavigateHandler = function (url, query) {
-			option.onNavigate({ url, query })
+		let onNavigateHandler = function (url, query, type) {
+			option.onNavigate({ url, query, type})
 		}
 		console.log(`Page[${name}] define "onNavigate".`)
 		dispatcher.on('navigateTo:' + name, onNavigateHandler)
@@ -133,6 +136,9 @@ function WXPage(name, option) {
 		})
 	}
 	if (option.mixins) {
+		if (fns.type(option.mixins) !== 'array' ) {
+			option.mixins = [option.mixins]
+		}
 		mixins(option, ...option.mixins);
 	}
 
@@ -152,9 +158,6 @@ bridge.redirectDelegate(redirector, dispatcher)
  */
 function Application(option) {
 
-	if (!option.config || !option.config.route || !option.config.route.length) {
-		throw new Error('config.route is necessary !')
-	}
 	if (option.config) {
 		WXPage.config(option.config)
 	}

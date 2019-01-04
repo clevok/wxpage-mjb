@@ -22,17 +22,20 @@ Page.P(router.pages.user.index, {
 		this.$redirect('/pages/user/user')
 	},
 	route () {
-        wx.navigateTo({
-            url: '../place/place'
-        })
+		wx.navigateTo({
+			url: '../place/place'
+		})
 	},
 	navigate() {
-		this.$navigate('/pages/user/user')
+		this.$navigate('user?cid=abcd')
 	},
 	onPlayNav: function () {
 		wx.navigateTo({
 			url: '/pages/play?cid=abcd'
 		})
+	},
+	onNavigate (taget) {
+		console.log('监听页面跳转 onNavigate: taget', taget)
 	},
 	onShow: function () {
 		console.log('[pages/index] 页面展示')

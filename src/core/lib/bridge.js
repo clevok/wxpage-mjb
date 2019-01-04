@@ -1,6 +1,5 @@
 var cache = require('./cache')
 var redirector = require('./redirector')
-var conf = require('./conf')
 var fns = require('./fns')
 var path = require('./path');
 var navigate = route({ type: 'navigateTo' })
@@ -27,28 +26,30 @@ module.exports = {
 	mount: function (e) {
 		var payload = e.detail
 		switch (payload.type) {
-			case 'attached':
-				let ref = getRef && getRef(payload.id)
-				if (!ref) return
+		case 'attached':
+			let ref = getRef && getRef(payload.id)
+			if (!ref) return
 
-				let refName = ref._$ref
-				if (refName && this.$refs) {
-					this.$refs[refName] = ref
-				}
-				ref._$attached(this)
-				break
-			case 'event:call':
-				let method = this[payload.method]
-				method && method.apply(this, payload.args)
-			default:
-				break
+			let refName = ref._$ref
+			if (refName && this.$refs) {
+				this.$refs[refName] = ref
+			}
+			ref._$attached(this)
+			break
+		case 'event:call':
+			let method = this[payload.method]
+			method && method.apply(this, payload.args)
+		default:
+			break
 		}
 	},
 	redirectDelegate: function (emitter, dispatcher) {
 		;['navigateTo', 'redirectTo', 'switchTab', 'reLaunch'].forEach(function (k) {
 			emitter.on(k, function (url) {
-				var name = getPageName(url)
-				name && dispatcher.emit(k + ':' + name, url, fns.queryParse(url.split('?')[1]))
+				let split = url.split('?');
+				let name = getTargetRouter(split[0]);
+				debugger;
+				name && dispatcher.emit(k + ':' + name, url, fns.queryParse(split[1]), k)
 			})
 		})
 	},
@@ -106,10 +107,6 @@ function route({ type }) {
 	return function (url, config) {
 		var parts = url.split(/\?/);
 		var pagepath = getTargetRouter.call(this, parts[0]);
-		// DELETE 移除
-		// if (/^[\w\-]+$/.test(pagepath)) {
-		// 	pagepath = (conf.get('customRouteResolve') || conf.get('routeResolve'))(pagepath)
-		// }
 		if (!pagepath) {
 			throw new Error('Invalid path:', pagepath)
 		}
@@ -145,16 +142,16 @@ function back(delta) {
 	})
 }
 function preload(url) {
-	var name = getTargetRouter.call(this, url.split('?')[0]);
+	let split = url.split('?');
+	let name = getTargetRouter.call(this, split[0]);
 	url = getTargetRouter.call(this, url);
-	name && dispatcher && dispatcher.emit('preload:' + name, url, fns.queryParse(url.split('?')[1]))
+	name && dispatcher && dispatcher.emit('preload:' + name, url, fns.queryParse(split[1]))
 }
 function getPage() {
 	return getCurrentPages().slice(0).pop()
 }
 function getPageName(url) {
-	var m = /^[\w\-]+(?=\?|$)/.exec(url)
-	return m ? m[0] : conf.get('nameResolve')(url)
+	return url.split('/')[ url.split('/').length-1 ];
 }
 function curPageName() {
 	var route = getPage().route
@@ -175,7 +172,7 @@ function take(key) {
 /**
  * 符合 微信 正常路径链接, 返回 对应的路径url
  * @param {*} target 目的地 url
- * @return {string} 返回指定的路径 非 / 开头
+ * @return {string} 返回指定的路径 会以 / 开头 的绝对路径
  */
 function getTargetRouter(target = '') {
 	if (!target || target.indexOf('/') === 0) {

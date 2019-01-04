@@ -17,7 +17,6 @@ Page.P(router.pages.user.user, {
 		item.data.demo2.name = 'click主动修改'
 		console.log(this.data);
 		console.log(item.data);
-
 	},
 	onPreload: function (res) {
 		console.log('[pages/play] 页面预加载:', res)
@@ -26,7 +25,6 @@ Page.P(router.pages.user.user, {
 		console.log('[pages/play] 页面将要跳转：', res)
 	},
 	onLoad: function () {
-		console.log(this);
 	},
 	onShow: function () {
 		console.log('[pages/play] 页面展示')
