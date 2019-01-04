@@ -11,12 +11,12 @@ Page.P(router.pages.user.user, {
 		status: config.getStatus('detail')
 	},
 	click() {
-		// this.setData({
-		// 	['demo2.name']: 'along'
-		// });
-		item.data.demo2.name = 'click主动修改'
-		console.log(this.data);
-		console.log(item.data);
+		this.setData({
+			['demo2.name']: 'along'
+		});
+		this.setData({
+			'status': '更新status'
+		});
 	},
 	onPreload: function (res) {
 		console.log('[pages/play] 页面预加载:', res)

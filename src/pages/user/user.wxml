@@ -1,7 +1,7 @@
 
 <view class="wxpage">
 	<header binding="$"></header>
-	<view >sdfs</view>
+	<view >{{demo2.name}}</view>
 	<button bindtap="click">点我</button>
 	<image src="https://img1.gtimg.com/v/pics/hv1/252/25/2195/142736502.jpg"></image>
 </view>

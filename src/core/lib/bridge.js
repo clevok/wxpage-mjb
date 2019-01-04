@@ -48,7 +48,6 @@ module.exports = {
 			emitter.on(k, function (url) {
 				let split = url.split('?');
 				let name = getTargetRouter(split[0]);
-				debugger;
 				name && dispatcher.emit(k + ':' + name, url, fns.queryParse(split[1]), k)
 			})
 		})

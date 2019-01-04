@@ -9,18 +9,11 @@ wx.$api = api;
 wx.$actions = actions;
 
 App.A({
-	config: {
-		route: ['/pages/$page'],
-		resolvePath: function (name) {
-            debugger
-			return '/pages/' + name
-		}
-	},
 	globalData: {
 		getSystemInfo: null,
 	},
-	onLaunch: function(opts) {
-        this.getSystemInfo();
+	onLaunch: function() {
+		this.getSystemInfo();
 	},
 	onShow: function () {
 		console.log('App onShow')

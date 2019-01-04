@@ -34,7 +34,7 @@ Page.P(router.pages.index, {
 	},
 	tapPlace() {
 	},
-	onAwake: function (t) {
+	onAwake: function () {
 	},
 	onReachBottom() {
 		this.Reset();
