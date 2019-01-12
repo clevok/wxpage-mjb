@@ -1,0 +1,5 @@
+
+<view class="wxpage">
+	<button bindtap="onPreload">预加载方式,</button>
+	<button bindtap="click">直接跳转</button>
+</view>

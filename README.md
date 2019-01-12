@@ -1,37 +1,77 @@
-# 微信小程序页面加载解析, wxpage预加载分析
-[gitHub地址](https://github.com/clevok/wxpage-mjb)
-## 前言
+### 前言
+公司入坑了wepy, 我想想对小程序框架感兴趣了起来, 一直再找在原生基础上扩展属性的框架, 主要想干净点, 自己容易扩展, 后来找到了 wxpage(腾讯视频出品), 在它基础上对 router 改了一下 [github 地址](https://github.com/clevok/wxpage)
 
-关于小程序加载问题, 看过很多文章
+## 刚入门时, 我的错误理解
+小程序加载类似于 单页面, 主包的内容在加载小程序的时候, 都直接加载
 
-1. 加载小程序
-    
-    除了下载, 环境等等,`小程序所有的页面都一开始就会被加载!!!` 注意了,这个地方可以入手, wxpage,wepy, 预加载抓住了这一点
-    我们可以在任意一个js中, 执行打印, 或者建立事件监听, 都是可以执行到的
+一开始, 我以为一个js文件内, 所有的js逻辑 都必须写在Page.onLoad内, 才能执行(事实上是错的)。
+我曾经还以为, 小程序的加载方式 是 类似 传统 多个html页面（或者hubilder App 方案）, A页面更改config.js, B页面不受影响, `实际上`是 类似 vue的Spa 开发模式, 会 相互影响
+
+    // 默认的小程序页面
+    // index.js
+
+    const config = require('./config');
+    Page({
+        onLoad() {}
+    });
 
 
-        // index.js 
-        event.on('load', ()=>{ console.log('我是index') });
-        
-        // user.js 
-        event.on('load', ()=>{ console.log('我是user') });
-        
-        // setting.js 
-        event.on('load', ()=>{ console.log('我是setting') });
+## 预加载
 
-        // index.js
-        onLoad() {
-            event.emit('load');
-            // 我是index;
-            // 我是user;
-            // 我是setting;
+### 根本
+wxpage, wepy 在 `小程序主包所有的页面都一开始就会被加载!!!` 这个地方入手
+
+其实就是给每一个Page页面注册了个事件, 在调用跳转方法`this.$router`的时候, emit了个方法,唤起对应 响应页面 并 执行对象的方法比如 `onPreLoad` , 比如, 提起请求, 将请求保存在一个 对象中, 在那个页面加载onLoad后, 再从对象中取出这个请求, 做处理
+
+
+### 为什么要将请求保存在一个对象中, onLoad后再取出, 而不是 在 onPreLoad 直接更改 data 内容
+这是小程序一个特殊点
+小程序主包所有的页面都加载, 在进入一个页面的时候, 会 `深拷贝` 对应页面的Page内的对象, 并扩展一些属性, 存入 [页面栈中](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html) getCurrentPages(我猜的)
+
+
+因为 请求是 需要时间的, 你在A页面调用了B页面的 `onPreLoad`, 这个方法，更改 `this.data.name`, 但是, 如果 该页面已经深拷贝了, 请求还没回来, 后来 更改 `this.data.name` 实际更改了 `js文件` 内的data, 深拷贝后的 `this`, 不是原先那个, 两个`this`没有关系, 毕竟, 拷贝后的 `page对象` 没有执行`onPreLoad`方法
+
+
+> 那么如果是直接更改 data的属性, 是立即执行, 不耗时, 且我延后跳转到该页面，深拷贝是否就是我想要的对象了呢
+一开始, 我感觉似乎是这样, 蛮有道理的, 然而实际缺不太一样
+
+    // A.js
+    {
+        preload () {
+            event.emit('preload');
         }
+    }
 
->小程序的加载类似 webpack+vue, 引用都存在包里, 除Page()方法传入的对象,每次加载页面都会重新深拷贝到App, 其他的引用一直存在内存中不变,event.js 就是个很好的例子
+    // B.js
+    event.on('preload', ()=> {
+        item.onPreload();
+        setTimeout(()=> {
+            wx.navigateTo({
+                url: 'B'
+            })
+        }, 200);
+    });
+
+    let item = {
+        data: {
+            demo1: 'demo1.name',
+            demo2: {
+                name: 'demo2.name'
+            }
+        },
+        onPreload: function () {
+            this.data.demo1 = 'change.demo1';
+            this.data.demo2.name = 'change.demo2';
+        }
+    }
+    Page.P(item);
+
+一开始感觉, A.js 点击 , B.js 更改了item.data属性, 小程序加载B页面, 深拷贝页面对象, 此时的深拷贝对象应该是更改后的, 结果！！！ 没有变化。
+> 慢慢的我又发了, 另一个方法会产生变化
 
 
-2. 页面加载完后,`Page()` 对象会被 `深拷贝` 维护在一个 页面对象中, 在加载的时候读取出来, 存入 [页面栈中](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html) getCurrentPages(我猜的)
-
+因为, A页面响应B页面的请求的时候, B页面执行  `onPreLoad`, 如果说, 在 `onPreLoad` 直接更改 data某个属性, 其实, 如果你执行更改是立刻的, 直接更改了 data , 之后再 进入到该 `B页面`, 那么会深拷贝该页面, 一切都是按你所想的。
+但是！！
 
 ## 研究小程序Page页面 data属性初始化
 

@@ -3,7 +3,9 @@
 		"pages/index",
         "pages/place/place",
 		"pages/user/user",
-		"pages/user/index"
+        "pages/user/index",
+		"pages/test/A",
+		"pages/test/B"
 	],
     "window": {
         "navigationBarTextStyle": "black",

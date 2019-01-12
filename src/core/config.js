@@ -25,12 +25,14 @@ exports.demo1 = 'demo1'
 exports.demo2 = {
 	name: 'demo2'
 }
-const lib = {
+
+let lib = {
 	'detail' : {age: 3}
 }
+exports.lib = lib;
 exports.getStatus = function (name) {
-    return lib[name]||{};
+	return lib[name]||{};
 }
 exports.setStatus = (name, value) =>  {
-    lib[name] = value;
+	lib[name] = value;
 }
