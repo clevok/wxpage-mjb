@@ -1,12 +1,10 @@
 
 let event = require('../../core/event');
 let config = require('../../core/config');
-
 let item = {
 	data: {
 	},
 	onPreload: function () {
-		config.demo2.name = 'change';
 		event.emit('preload');
 	},
 	onNavigate: function (res) {

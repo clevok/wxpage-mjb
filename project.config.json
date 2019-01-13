@@ -5,14 +5,15 @@
 	},
 	"miniprogramRoot": "src/",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": false,
-		"newFeature": true
+		"newFeature": true,
+		"uglifyFileName": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.8",
+	"libVersion": "2.5.0",
 	"appid": "wxdbd892459da31f0e",
 	"projectname": "wxpage",
 	"debugOptions": {

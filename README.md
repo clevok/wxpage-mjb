@@ -1,25 +1,61 @@
 ### 前言
 公司入坑了wepy, 我想想对小程序框架感兴趣了起来, 一直再找在原生基础上扩展属性的框架, 主要想干净点, 自己容易扩展, 后来找到了 wxpage(腾讯视频出品), 在它基础上对 router 改了一下 [github 地址](https://github.com/clevok/wxpage)
 
+参考大佬的[文章](https://wetest.qq.com/lab/view/294.html?from=content_csdnblog)
+
 ## 刚入门时, 我的错误理解
 小程序加载类似于 单页面, 主包的内容在加载小程序的时候, 都直接加载
 
-一开始, 我以为一个js文件内, 所有的js逻辑 都必须写在Page.onLoad内, 才能执行(事实上是错的)。
-我曾经还以为, 小程序的加载方式 是 类似 传统 多个html页面（或者hubilder App 方案）, A页面更改config.js, B页面不受影响, `实际上`是 类似 vue的Spa 开发模式, 会 相互影响
-
-    // 默认的小程序页面
-    // index.js
-
+一开始我曾经还以为, 小程序的加载方式 是 类似 传统 多个html页面（或者hubilder App 方案
+    
+    // A.js
     const config = require('./config');
+    console.log('A.js 初始化');
     Page({
-        onLoad() {}
+        onLoad() {
+            console.log('A.onLoad');
+        }
     });
+
+    // B.js
+    console.log('B.js 初始化');
+    Page({
+        onLoad() {
+            console.log('B.onLoad');
+        }
+    });
+
+一开始我以为 从A页面 加载B页面的时候， B.js会 重新加载
+
+    // B.js 初始化
+    // B.onLoad
+
+事实上, 每次跳到B页面, 仅仅 B页面Page对象会进行`深拷贝`, 进入 页面的生命周期
+
+    // B.onLoad
+
+且主包的所有的内容在一开始就会加载, 就像 vue webpack加载方式, 而分包的内容就像 webpack配置单独的模块, 只有加载到该模块后才会加载该模块下的所有的内容
+
+    // App 加载的时候， 所有的js 都会记载
+
+    // A.js 初始化
+    // B.js 初始化
+    // 等等其他的页面
+
+    // 然后加载首页A页面, 进入A页面的生命周期， 触发钩子 onLoad方法
+    // A.onLoad
+
+
+> 在小程序启动时，会把所有调用Page()方法的object存在一个队列里（如下图）。每次页面访问的时候，微信会重新创建一个新的对象实例（实际上就是深拷贝）。
+
+[](https://f.wetest.qq.com/gqop/10000/20000/LabImage_77ebebbdda7eb0340c5f1939ba93c1e1.png)
 
 
 ## 预加载
 
-### 根本
-wxpage, wepy 在 `小程序主包所有的页面都一开始就会被加载!!!` 这个地方入手
+预加载 的 实现方案 就是在小程序页面加载机制上 ，A页面通过事件监听的等方式, 先调用 对应页面B 的 原型（即将要被深拷贝的页面对象） 的特殊的方法。来达到 分离业务逻辑，提前请求的目的
+
+### 
 
 其实就是给每一个Page页面注册了个事件, 在调用跳转方法`this.$router`的时候, emit了个方法,唤起对应 响应页面 并 执行对象的方法比如 `onPreLoad` , 比如, 提起请求, 将请求保存在一个 对象中, 在那个页面加载onLoad后, 再从对象中取出这个请求, 做处理
 
@@ -32,8 +68,11 @@ wxpage, wepy 在 `小程序主包所有的页面都一开始就会被加载!!!` 
 因为 请求是 需要时间的, 你在A页面调用了B页面的 `onPreLoad`, 这个方法，更改 `this.data.name`, 但是, 如果 该页面已经深拷贝了, 请求还没回来, 后来 更改 `this.data.name` 实际更改了 `js文件` 内的data, 深拷贝后的 `this`, 不是原先那个, 两个`this`没有关系, 毕竟, 拷贝后的 `page对象` 没有执行`onPreLoad`方法
 
 
-> 那么如果是直接更改 data的属性, 是立即执行, 不耗时, 且我延后跳转到该页面，深拷贝是否就是我想要的对象了呢
-一开始, 我感觉似乎是这样, 蛮有道理的, 然而实际缺不太一样
+### 这是一个实验性的方案
+
+> 那么如果是在前一个页面直接更改要跳转页面的 data的属性, 是立即执行, 不耗时, 且我延后跳转到该页面，深拷贝是否就是我想要的对象了呢
+
+一开始, 我感觉似乎是这样, 蛮有道理的, 然而实际却不太一样
 
     // A.js
     {
@@ -55,6 +94,7 @@ wxpage, wepy 在 `小程序主包所有的页面都一开始就会被加载!!!` 
     let item = {
         data: {
             demo1: 'demo1.name',
+            // demo2: config.demo2 // 引入的方式也一样的
             demo2: {
                 name: 'demo2.name'
             }
@@ -67,71 +107,13 @@ wxpage, wepy 在 `小程序主包所有的页面都一开始就会被加载!!!` 
     Page.P(item);
 
 一开始感觉, A.js 点击 , B.js 更改了item.data属性, 小程序加载B页面, 深拷贝页面对象, 此时的深拷贝对象应该是更改后的, 结果！！！ 没有变化。
-> 慢慢的我又发了, 另一个方法会产生变化
-
-
-因为, A页面响应B页面的请求的时候, B页面执行  `onPreLoad`, 如果说, 在 `onPreLoad` 直接更改 data某个属性, 其实, 如果你执行更改是立刻的, 直接更改了 data , 之后再 进入到该 `B页面`, 那么会深拷贝该页面, 一切都是按你所想的。
-但是！！
-
-## 研究小程序Page页面 data属性初始化
-
-### 基础代码
-
-    // config.js
-    exports.demo1 = 'demo1'
-    exports.demo2 = {
-        name: 'demo2'
-    }
-
-<br/>
-
-    // A页面
-    methods: {
-        router: () {
-            config.demo1 = '更改'
-            config.demo2.name = '更改'
-            event.emit('router:B'); // 我用事件监听来跳转
-        }
-    }
-
-<br/>
-
-### 验证 Page是否深拷贝, 以及验证, Page内data直接引用 外包js, 每次加载Page，data是否会改变
-
-    // B页面
-    let config = require('../config');
-    event.on('router:B', ()=> {
-        router('B'); // 跳转到B
-    });
-
-    let item = {
-        data: {
-            name: wx.getStorageSync('page'),
-            demo1: config.demo1, // 因为是按值类型, 哪怕后来刚刚了config.demo1, Page再加载的时候, 也不变了。
-            demo2: config.demo2, // 影响 按引用
-            demo2.name: config.demo2.name // 不会再变的值
-        },
-        onLoad () {
-            this === item; // false 以及经过深拷贝了
-            this.data.demo2 === item.data.demo2 // false 深拷贝
-
-            item.data.demo2 === config.demo2 // ture item对象依然存在的
-            this.data.demo2 === config.demo2 // false 深拷贝
-        }
-    };
-    Page(item);
-
-1. 经测试,我们发现, Page每次都深拷贝item对象, 且 item是依然存在的, 然而 Page对象与 item已经断开了联系, 包括 Page.data.demo2 也和config.demo2断开了联系, 因此证明页面每次加载都是`深拷贝`.
-
-2. 经测试, 在小程序加载后, 所有的 按值引用的变量都定下来了（这是基本的，应该是存在js执行，解析的原理） , 只有按引用 类型的变量, 再深拷贝会 重新读取赋值, 所以可以抓住这一点.作预加载
-
-> 因此, 我们在跳转 router 前, 可以提前保存一个 对象进 内存中, 在下一个页面 Page.data.list 直接 引用 包内的对象, 这样, 在跳转到 下一个页面深拷贝时, Page.data已经是新的了.
-
-这里可以来个快捷加载咯,要注意了,` 要先改, 在引用的页面加载之前才有效果,`
+再后来发现
+`只有在2.4.0及以下的版本上面的方法能起作用，但是不要用这个了，了解下就好, 新版本不支持`
 
 ---
 
 ### 那么 wxpage, wepy的 preload 是怎么用呢
+
 上面的那个方式,必须保证页面跳转前 `数据`已经加载完了, 再跳转，才能读取深拷贝改变后的data, 这样就很不好了
 所以, 该框架采用, 跳转的时候, 就请求加载数据, 把请求体保存在内存（变量），等B页面加载完后，onLoad() 再读取这个变量，赋值到data
 ,说白了，就是提前请求。
@@ -169,8 +151,6 @@ wxpage, wepy 在 `小程序主包所有的页面都一开始就会被加载!!!` 
 如果你有疑问, 那就是 onLoad 内的this和 onPreload 内的this 不一样， 为什么可以取，因为 put,和take是框架扩展的两个方法而已，真正还是往包里（channel）拿里拿
 
 --- 
-
-
 
 ## wxpage 解析 未完
 

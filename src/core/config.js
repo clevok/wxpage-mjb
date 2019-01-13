@@ -25,6 +25,7 @@ exports.demo1 = 'demo1'
 exports.demo2 = {
 	name: 'demo2'
 }
+exports.demo3 = [{name: 1}, {name: 2}]
 
 let lib = {
 	'detail' : {age: 3}

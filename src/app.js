@@ -1,6 +1,7 @@
 require('./core/wx');
 require('./core/page');
 
+let config = require('./core/config');
 const api = require('./core/api/index');
 const app = require('./mixins/app');
 const actions = require('./core/actions');

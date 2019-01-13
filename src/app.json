@@ -12,8 +12,7 @@
         "navigationBarTitleText": "demo",
         "navigationBarBackgroundColor": "#fff",
         "backgroundColor": "#fff",
-        "backgroundTextStyle": "dark",
-        "navigationStyle": "custom"
+        "backgroundTextStyle": "dark"
     },
     "tabBar": {
         "selectedColor": "#034b2b",

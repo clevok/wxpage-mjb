@@ -1,4 +1,5 @@
 
 <view class="wxpage">
 	{{demo2.name}}
+    <view>demo1 {{demo1}}</view>
 </view>
