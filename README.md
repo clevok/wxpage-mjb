@@ -1,5 +1,5 @@
 ### 前言
-公司入坑了wepy, 我想想对小程序框架感兴趣了起来, 一直再找在原生基础上扩展属性的框架, 主要想干净点, 自己容易扩展, 后来找到了 wxpage(腾讯视频出品), 在它基础上对 router 改了一下 [github 地址](https://github.com/clevok/wxpage)
+一直在找原生基础上扩展属性的框架, 主要想干净点, 自己容易扩展, 后来找到了 wxpage(腾讯视频出品), 在它基础上对 router 改了一下 [github 地址](https://github.com/clevok/wxpage)
 
 参考大佬的[文章](https://wetest.qq.com/lab/view/294.html?from=content_csdnblog)
 
@@ -55,7 +55,7 @@
 
 预加载 的 实现方案 就是在小程序页面加载机制上 ，A页面通过事件监听的等方式, 先调用 对应页面B 的 原型（即将要被深拷贝的页面对象） 的特殊的方法。来达到 分离业务逻辑，提前请求的目的
 
-### 
+### preload的实现方案
 
 其实就是给每一个Page页面注册了个事件, 在调用跳转方法`this.$router`的时候, emit了个方法,唤起对应 响应页面 并 执行对象的方法比如 `onPreLoad` , 比如, 提起请求, 将请求保存在一个 对象中, 在那个页面加载onLoad后, 再从对象中取出这个请求, 做处理
 
