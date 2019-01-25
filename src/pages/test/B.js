@@ -42,5 +42,4 @@ let item = {
 	}
 
 };
-// Page.P('/page/test/B', item);
-Page(item)
+Page.P('/page/test/B', item);

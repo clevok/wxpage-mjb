@@ -1,5 +1,7 @@
 
 <view class="wxpage">
+    {{name}}
+    <view></view>
 	{{demo2.name}}
     <view>demo1 {{demo1}}</view>
 </view>
