@@ -2,7 +2,7 @@ exports.router = {
 	pages: {
 		index: '/pages/index',
 		user: {
-            index: '/pages/user/index',
+			index: '/pages/user/index',
 			user: '/pages/user/user'
 		},
 		setting: {

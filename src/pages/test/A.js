@@ -3,6 +3,7 @@ let event = require('../../core/event');
 let config = require('../../core/config');
 let item = {
 	data: {
+		list: [1,2,3,5,6,8,7,5,4]
 	},
 	onPreload: function () {
 		event.emit('preload');

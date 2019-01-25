@@ -5,7 +5,8 @@
 		"pages/user/user",
         "pages/user/index",
 		"pages/test/A",
-		"pages/test/B"
+        "pages/test/B",
+        "pages/test/index"
 	],
     "window": {
         "navigationBarTextStyle": "black",

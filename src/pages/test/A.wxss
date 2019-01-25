@@ -1,1 +1,11 @@
-/* pages/play.wxss */
+.child {
+    columns:100px 2;
+    -webkit-columns:100px 2; /* Safari and Chrome */
+    -moz-columns:100px 2; /* Firefox */
+}
+.child>view {
+    width: 40%;
+    height: 36px;
+    background-color: red;
+    margin-top: 20px;
+}

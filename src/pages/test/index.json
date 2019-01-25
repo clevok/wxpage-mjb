@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "brick-layout": "/components/brickLayout/brickLayout"
+  },
+  "enablePullDownRefresh": true
+}
