@@ -1,8 +1,8 @@
 .black {
-    background-color: #484848;
+    background-color: #3a3a3a;
 }
 .text--black {
-    color: #484848;
+    color: #3a3a3a;
 }
 .grey-1 {
     background-color: #eeeeee
@@ -15,6 +15,9 @@
     color: white;
 }
 
+.text--grey {
+    color: #9a9a9a;
+}
 
 .theme {
     background-color: #034b2b;

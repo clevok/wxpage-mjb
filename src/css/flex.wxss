@@ -72,6 +72,7 @@
     display: flex;
     flex-direction: column;
 }
+
 .fx--between {
     display: flex;
     box-sizing: border-box;

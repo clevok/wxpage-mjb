@@ -114,50 +114,50 @@
     padding-left: 16rpx !important;
   }
   .ma-3 {
-    margin: 32rpx 32rpx !important;
+    margin: 36rpx 36rpx !important;
   }
   .my-3 {
-    margin-top: 32rpx !important;
-    margin-bottom: 32rpx !important;
+    margin-top: 36rpx !important;
+    margin-bottom: 36rpx !important;
   }
   .mx-3 {
-    margin-left: 32rpx !important;
-    margin-right: 32rpx !important;
+    margin-left: 36rpx !important;
+    margin-right: 36rpx !important;
   }
   .mt-3 {
-    margin-top: 32rpx !important;
+    margin-top: 36rpx !important;
   }
   .mr-3 {
-    margin-right: 32rpx !important;
+    margin-right: 36rpx !important;
   }
   .mb-3 {
-    margin-bottom: 32rpx !important;
+    margin-bottom: 36rpx !important;
   }
   .ml-3 {
-    margin-left: 32rpx !important;
+    margin-left: 36rpx !important;
   }
   .pa-3 {
-    padding: 32rpx 32rpx !important;
+    padding: 36rpx 36rpx !important;
   }
   .py-3 {
-    padding-top: 32rpx !important;
-    padding-bottom: 32rpx !important;
+    padding-top: 36rpx !important;
+    padding-bottom: 36rpx !important;
   }
   .px-3 {
-    padding-left: 32rpx !important;
-    padding-right: 32rpx !important;
+    padding-left: 36rpx !important;
+    padding-right: 36rpx !important;
   }
   .pt-3 {
-    padding-top: 32rpx !important;
+    padding-top: 36rpx !important;
   }
   .pr-3 {
-    padding-right: 32rpx !important;
+    padding-right: 36rpx !important;
   }
   .pb-3 {
-    padding-bottom: 32rpx !important;
+    padding-bottom: 36rpx !important;
   }
   .pl-3 {
-    padding-left: 32rpx !important;
+    padding-left: 36rpx !important;
   }
   .ma-4 {
     margin: 48rpx 48rpx !important;
@@ -370,50 +370,50 @@
       padding-left: 8px !important;
     }
     .ma-3 {
-      margin: 16px 16px !important;
+      margin: 18px 18px !important;
     }
     .my-3 {
-      margin-top: 16px !important;
-      margin-bottom: 16px !important;
+      margin-top: 18px !important;
+      margin-bottom: 18px !important;
     }
     .mx-3 {
-      margin-left: 16px !important;
-      margin-right: 16px !important;
+      margin-left: 18px !important;
+      margin-right: 18px !important;
     }
     .mt-3 {
-      margin-top: 16px !important;
+      margin-top: 18px !important;
     }
     .mr-3 {
-      margin-right: 16px !important;
+      margin-right: 18px !important;
     }
     .mb-3 {
-      margin-bottom: 16px !important;
+      margin-bottom: 18px !important;
     }
     .ml-3 {
-      margin-left: 16px !important;
+      margin-left: 18px !important;
     }
     .pa-3 {
-      padding: 16px 16px !important;
+      padding: 18px 18px !important;
     }
     .py-3 {
-      padding-top: 16px !important;
-      padding-bottom: 16px !important;
+      padding-top: 18px !important;
+      padding-bottom: 18px !important;
     }
     .px-3 {
-      padding-left: 16px !important;
-      padding-right: 16px !important;
+      padding-left: 18px !important;
+      padding-right: 18px !important;
     }
     .pt-3 {
-      padding-top: 16px !important;
+      padding-top: 18px !important;
     }
     .pr-3 {
-      padding-right: 16px !important;
+      padding-right: 18px !important;
     }
     .pb-3 {
-      padding-bottom: 16px !important;
+      padding-bottom: 18px !important;
     }
     .pl-3 {
-      padding-left: 16px !important;
+      padding-left: 18px !important;
     }
     .ma-4 {
       margin: 24px 24px !important;

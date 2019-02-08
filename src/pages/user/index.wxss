@@ -1,1 +1,2 @@
-/* pages/index.wxss */
+/* pages/user/index.wxss */
+@import "../../template/userContent.wxss";

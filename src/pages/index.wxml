@@ -1,19 +1,52 @@
 
 <view>
-    <header>首页</header>
-    <vtabs binding="$" list="{{placeTyps}}"></vtabs>
-    <view class="px-4">
-        <view class="my-4 text--title font-weight-medium">最近的场所{{lname}}</view>
-        <view class="flex wrap">
-            <block wx:for="{{list}}" wx:key="index">
-            <view class="index-child mb-5" bindtap="tapPlace">
-                <vcard src="{{item.placeImg[0]}}" title="{{item.placeName}}">
-                    <view slot="tips">{{item.type}} 0.63km</view>
-                    <view class="text--smaller showLine-1">{{item.context}}</view>
-                </vcard>
+    <header fixed="{{true}}">首页</header>
+    <view class="index-header"></view>
+    <view class="index-main">
+        <view class="px-3 py-4 ">
+            <view class="text--grey">点我可以切换城市</view>
+
+            <view class="fy--center">
+                <view class="text--title flex-1">杭州西湖南塘镇</view>
+                <view class="index-search">
+                    <i class="iconfont icon-search"></i>
+                </view>
             </view>
-            </block>
         </view>
+        
+        <view class="px-3">
+            <view class="text--title">怎么玩，去哪玩</view>
+            <view class="mb-2">看看其他攻略</view>
+            <scroll-view scroll-x class="scroll-x">
+                <block wx:for="{{list}}" wx:key="index">
+                <view class="index-scroll-child" >
+                    <vcard src="{{item.placeImg[0]}}" >
+                        <view slot="tips">{{item.type}} 0.63km</view>
+                        <view class="showLine-1">{{item.placeName}}</view>
+                        <view class="showLine-1">{{item.context}}</view>
+                    </vcard>
+                </view>
+                </block>
+            </scroll-view>
+        </view>
+
+        <view class="px-3">
+            <view class="mt-4 text--title">附近有哪些</view>
+            <view class="mb-2">看看距离你附近有哪些好玩的</view>
+        </view>
+        <vtab-btns binding="$" list="{{placeTyps}}"></vtab-btns>
+        <view class="px-3">
+            <view class="flex wrap mt-2">
+                <block wx:for="{{list}}" wx:key="index">
+                <view class="index-child mb-3" bindtap="tapPlace">
+                    <vcard src="{{item.placeImg[0]}}" >
+                        <view slot="title">{{item.placeName}}</view>
+                        <view class="showLine-2 text--grey">{{item.context}}</view>
+                    </vcard>
+                </view>
+                </block>
+            </view>
+        </view>
+        <vload loadStatus="{{loadStatus}}"></vload>
     </view>
-    <vload loadStatus="{{loadStatus}}"></vload>
 </view>

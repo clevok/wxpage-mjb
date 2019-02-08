@@ -1,32 +1,36 @@
 .v-table-content {
     overflow: hidden;
-    padding-bottom: 6px;
+    border-bottom: 0.8px solid #dddddd;
 }
 .v-tabs {
     white-space: nowrap;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    font-size: 30rpx;
+    font-weight: 600;
 }
 .v-tabs-child {
     display: inline-block;
-    margin-right: 40rpx;
-    padding: 26rpx 0;
+    margin-right: 54rpx;
+    padding: 30rpx 0;
     color: #bdbdbd;
     border-bottom: 2px solid transparent; 
+}
+.v-tabs-child:first-child {
+    margin-left: 54rpx; 
 }
 .v-tabs-child.act {
     border-bottom-color:#484848; 
     color: #484848;
 }
-.v-tabs-child:first-child {
-    margin-left: 40rpx; 
-}
 
 @media screen and (min-width: 768px) {
+    .v-tabs {
+        font-size: 15px;
+    }
     .v-tabs-child {
-        margin-right: 20rpx;
-        padding: 13px 0;
+        margin-right: 27px;
+        padding: 15px 0;
     }
     .v-tabs-child:first-child {
-        margin-left: 20px; 
+        margin-left: 27px; 
     }
 }

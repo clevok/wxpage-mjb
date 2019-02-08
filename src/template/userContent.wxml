@@ -1,0 +1,9 @@
+<template name="userContent">
+    <view class="u-c-header">
+        <image src="{{src}}" class="u-c-header-img"></image>
+        <view>
+            <view class="u-c-header-title">{{title}}</view>
+            <view class="u-c-header-inform">{{inform}}</view>
+        </view>
+    </view>
+</template>

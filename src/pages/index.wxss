@@ -1,3 +1,4 @@
+
 /* pages/index.wxss */
 .index-child {
     flex-grow: 1;
@@ -6,4 +7,39 @@
 }
 .index-child:nth-child(even){
     margin-left: 10px;
+}
+
+.index-header {
+    height: 420rpx;
+    background-image: url('https://muse-ui.org/img/water-plant.97ca3502.jpg');
+    background-position: center;
+    background-size: cover;
+}
+.index-main {
+    margin-top: -15px;
+    border-radius: 8px;
+    background-color: white;
+}
+.index-search {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: #F0F3F6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.index-search>.icon-search {
+    color: #C4CFDC;
+}
+
+.index-scroll-x {
+    white-space: nowrap
+}
+.index-scroll-child {
+    width: 40%;
+    margin-right: 14px;
+    display: inline-block;
+    white-space:normal;
+    vertical-align: top;
 }

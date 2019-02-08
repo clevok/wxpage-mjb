@@ -19,7 +19,13 @@
         "list": [
             {
                 "pagePath": "pages/index",
-                "text": "首页",
+                "text": "目的地",
+                "iconPath": "static/images/address.png",
+                "selectedIconPath": "static/images/address-act.png"
+            },
+            {
+                "pagePath": "pages/index",
+                "text": "热门",
                 "iconPath": "static/images/address.png",
                 "selectedIconPath": "static/images/address-act.png"
             },

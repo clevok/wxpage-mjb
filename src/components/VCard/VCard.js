@@ -7,10 +7,11 @@ Component.C({
             type: String,
             value: ''
         },
-        title: {
-            type: String,
-            value: ''            
+        num: {
+            type: Number,
+            value: null
         }
+
     },
     created: function() {
     },
