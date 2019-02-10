@@ -1,5 +1,4 @@
 {
-    "navigationStyle": "custom",
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "目的地",
     "usingComponents": {

@@ -1,6 +1,8 @@
 
 <view>
+<!--
     <header class="text--white" fixed="{{true}}">杭州</header>
+-->
     <view class="index-header fd--column">
         <view class="flex-1"></view>
         <view class="px-3 mb-3 fy--center">
