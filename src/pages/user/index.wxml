@@ -3,7 +3,7 @@
     <view class="text--center">
         <image class="user-img large mt-3"></image>
         <view></view>
-        <text class="my-3 line-block">阿龙</text>
+        <text class="my-3 line-block text--size-4">阿龙</text>
     </view>
     <vtabs list="{{tabs}}"></vtabs>
     

@@ -1,5 +1,7 @@
 {
     "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "目的地",
     "usingComponents": {
         "vsearch": "/components/VSearch/VSearch",
         "header": "/components/header/header",

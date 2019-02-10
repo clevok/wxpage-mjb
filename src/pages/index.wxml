@@ -1,20 +1,24 @@
 
 <view>
-    <header fixed="{{true}}">首页</header>
-    <view class="index-header"></view>
-    <view class="index-main">
-        <view class="px-3 py-4 ">
-            <view class="text--grey">点我可以切换城市</view>
+    <header class="text--white" fixed="{{true}}">杭州</header>
+    <view class="index-header fd--column">
+        <view class="flex-1"></view>
+        <view class="px-3 mb-3 fy--center">
 
-            <view class="fy--center">
-                <view class="text--title flex-1">杭州西湖南塘镇</view>
-                <view class="index-search">
-                    <i class="iconfont icon-search"></i>
-                </view>
+            <view class="flex-1">
+                <text class="index-title text--size-6 text--white">灵隐路232号</text>
+                <view class="text--white">点击可以切换城市</view>
             </view>
+            <view class="index-search">
+                <i class="iconfont icon-search"></i>
+            </view>
+
         </view>
+        <view>　</view>
+    </view>
+    <view class="index-main">
         
-        <view class="px-3">
+        <view class="pt-4 px-3">
             <view class="text--title">怎么玩，去哪玩</view>
             <view class="mb-2">看看其他攻略</view>
             <scroll-view scroll-x class="scroll-x">
@@ -30,8 +34,8 @@
             </scroll-view>
         </view>
 
-        <view class="px-3">
-            <view class="mt-4 text--title">附近有哪些</view>
+        <view class="px-3 mt-4">
+            <view class="text--title">附近有哪些</view>
             <view class="mb-2">看看距离你附近有哪些好玩的</view>
         </view>
         <vtab-btns binding="$" list="{{placeTyps}}"></vtab-btns>

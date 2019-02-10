@@ -1,5 +1,9 @@
 
 /* pages/index.wxss */
+.index-title {
+    font-size: 54rpx;
+}
+
 .index-child {
     flex-grow: 1;
     flex-shrink: 0;
@@ -10,7 +14,7 @@
 }
 
 .index-header {
-    height: 420rpx;
+    height: 440rpx;
     background-image: url('https://muse-ui.org/img/water-plant.97ca3502.jpg');
     background-position: center;
     background-size: cover;
@@ -30,7 +34,7 @@
     align-items: center;
 }
 .index-search>.icon-search {
-    color: #C4CFDC;
+    color: #454545;
 }
 
 .index-scroll-x {

@@ -6,7 +6,7 @@
     position: relative;
     padding-top: 61.8%;
     background-color: #eeeeee;
-    border-radius: 6px;
+    border-radius: 4px;
     overflow: hidden;
     background-size: cover;
     background-position: center;

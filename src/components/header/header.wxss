@@ -3,6 +3,7 @@
     height: 68px;
     opacity: 0;
     transition: opacity 0.3s ease, height 0.3s ease; 
+    z-index: 99;
 }
 .header-opacity.fixed {
     position: fixed;

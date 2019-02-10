@@ -4,7 +4,6 @@
     </view>
     <view>
         <view class="v-card-title"><slot name="title"></slot></view>
-
         <slot></slot>
     </view>
 </view>
