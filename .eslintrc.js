@@ -8,7 +8,7 @@ module.exports = {
 	"rules": {
 		"indent": [
 			"error",
-			'tab'
+			4
 		],
 		"no-undef": "error",
 		"no-unused-vars": "error"

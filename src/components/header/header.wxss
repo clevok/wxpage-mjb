@@ -3,6 +3,13 @@
     height: 68px;
     opacity: 0;
     transition: opacity 0.3s ease, height 0.3s ease; 
+    z-index: 99;
+}
+.header-opacity.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 .ios,
 .iosX,
@@ -30,7 +37,6 @@
     align-items: center;
     font-weight: 500;
     font-size: 18px;
-    background-color:white;
     box-sizing: content-box;
     padding-top: auto;
     transition: all 0.3s ease; 

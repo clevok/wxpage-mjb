@@ -1,0 +1,12 @@
+<block wx:for="{{list}}" wx:key="{{index}}">
+    <view class="u-panel">
+        <view class="u-header">
+            <image src="{{src}}" class="u-header-img"></image>
+            <view>
+                <view class="u-header-title"><slot name="title"></slot></view>
+                <view class="u-header-inform"><slot name="inform"></slot></view>
+            </view>
+        </view>
+        <view class="u-content"><slot></slot></view>
+    </view>
+</block>

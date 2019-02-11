@@ -53,9 +53,11 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "瀑布流",
-					"pathName": "pages/test/index"
+					"id": 2,
+					"name": "user",
+					"pathName": "pages/user/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

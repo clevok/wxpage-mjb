@@ -1,0 +1,39 @@
+.v-table-content {
+    width: 100%;
+
+}
+.v-tabs {
+    white-space: nowrap;
+    font-size: 28rpx;
+    padding-top: 6px;
+    padding-bottom: 6px; 
+}
+.v-tabs-child {
+    display: inline-block;
+    margin-right: 36rpx;
+    padding: 22rpx 38rpx;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0 0 4px #e0e0e0;
+}
+.v-tabs-child:first-child {
+    margin-left: 36rpx; 
+}
+.v-tabs-child.act {
+    color: white;
+    background-color: #008489;
+    box-shadow: 0 0 4px transparent;
+}
+
+@media screen and (min-width: 768px) {
+    .v-tabs {
+        font-size: 14px;
+    }
+    .v-tabs-child {
+        margin-right: 18px;
+        padding: 16px 19px;
+    }
+    .v-tabs-child:first-child {
+        margin-left: 18px; 
+    }
+}

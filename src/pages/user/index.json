@@ -1,5 +1,7 @@
 {
+    "navigationBarTitleText": "我的",
     "usingComponents": {
-        "vsearch": "/components/VSearch/VSearch"
+        "vtabs": "/components/VTabs/VTabs",
+        "u-user-content": "/components/UUserContent/UUserContent"
     }
 }

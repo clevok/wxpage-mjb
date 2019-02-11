@@ -1,10 +1,9 @@
 <view class="v-card">
-    <view class="v-card-img">
-        <image src="{{src}}" mode="aspectFill"></image>
+    <view class="v-card-img" style="background-image:url('{{src}}')">
+        <view class="tips" wx:if="{{num}}">num</view>
     </view>
     <view>
-        <view class="v-card-tips"><slot name="tips"></slot></view>
-        <view class="v-card-title">{{title}}</view>
+        <view class="v-card-title"><slot name="title"></slot></view>
         <slot></slot>
     </view>
 </view>

@@ -1,26 +1,19 @@
-
-<view class="wxpage">
-    <vsearch ref="VSearch" binding="$">搜索场所</vsearch>
-	<canvas style="height: 100px;width: 250px;" canvas-id="canvas"></canvas>
-	<view style="position: fixed;bottom: 0;left: 0;right: 0;height: 50px;background-color: blue;"
-		binddbtap="onTouchend"
-		binddbclick="onTTap"
-	></view>
-
-	<button bindtap="onPlay">Go go play page($route)</button>
-	<button bindtap="route">route</button>
-	<button bindtap="redirect">redirect</button>
-	<button bindtap="navigate">navigate</button>
-
-	<button bindtap="$bindRoute"
-		data-url="user?cid=1"
-		data-before="onClickBefore"
-		data-after="onClickAfter"
-	>Go go play page(bindRoute)</button>
-	
-	<button bindtap="onPlayNav">Go go play page(wx.navigateTo)</button>
-
-	<navigator url="/pages/play?cid=12"><button>Go go play page(navigator:navigate)</button></navigator>
-	<navigator url="/pages/play?cid=123" open-type="redirect"><button>Go go play page(navigator:redirect)</button></navigator>
-	<navigator url="/pages/channel?cid=12345" open-type="switchTab"><button>Go go play page(navigator:switchTab)</button></navigator>
+<import src="../../template/userContent" ></import>
+<view class="flex-1 fd--column">
+    <view class="text--center">
+        <image class="user-img large mt-3"></image>
+        <view></view>
+        <text class="my-3 line-block text--size-4">阿龙</text>
+    </view>
+    <vtabs list="{{tabs}}"></vtabs>
+    
+    <view class="flex-1 px-3">
+        <view class="u-c-panel padding">
+            <template is="userContent" data="{{title:'haha', inform:'2018-06-08'}}"></template>
+        </view>
+        <view class="u-c-panel padding">
+            <template is="userContent" data="{{title:'haha', inform:'2018-06-08'}}"></template>
+        </view>
+        <!-- <u-user-content list="{{[1,2]}}"></u-user-content> -->
+    </view>
 </view>
