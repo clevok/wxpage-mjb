@@ -20,11 +20,22 @@
   - [onShow配合其他数据](#onShow配合其他数据)
   - [hack模式:不推荐](#hack模式)
 
+
+* [页面的设计模式](#页面的设计模式)
+ - [自定义组件模式](#自定义组件模式)
+ - [import模式](#import模式)
+
+
+* [视图层显示优化](#视图层显示优化)
+  - [按钮加载成功后显示](#按钮加载成功后显示)
+
 * [wxpage解析未完](#wxpage解析未完)
 
 
+------------
+
 ## 刚入门时, 我的错误理解
-小程序加载类似于 单页面, 主包的内容在加载小程序的时候, 都直接加载
+小程序加载类似于 单页面, 主包的内容在加载小程序的时候, 相关页面都直接加载(所有的Page,Component(不管有没有引用都会加载)),其他的js,除非被引入,才会加载
 
 一开始我曾经还以为, 小程序的加载方式 是 类似 传统 多个html页面（或者hubilder App 方案
     
@@ -70,6 +81,10 @@
 > 在小程序启动时，会把所有调用Page()方法的object存在一个队列里（如下图）。每次页面访问的时候，微信会重新创建一个新的对象实例（实际上就是深拷贝）。
 
 [](https://f.wetest.qq.com/gqop/10000/20000/LabImage_77ebebbdda7eb0340c5f1939ba93c1e1.png)
+
+
+------------
+
 
 ## 预加载
 
@@ -191,7 +206,25 @@
 然后调转到detail页面，再通过`this.$take`取出`channel`对应的`key` 这样就实现啦
 如果你有疑问, 那就是 onLoad 内的this和 onPreload 内的this 不一样， 为什么可以取，因为 put,和take是框架扩展的两个方法而已，真正还是往包里（channel）拿里拿
 
---- 
+### setData不影响对象深拷贝特性
+
+        let a = {name: 2};
+        this.setData({
+            redis: a,
+            [`redis2[0]`]: a
+        });
+        console.log(this.data.redis);
+        console.log(this.data.redis2);
+        a.name = 7;
+        console.log(this.data.redis);
+        console.log(this.data.redis2);
+        this.setData({
+            [`redis.name`]: 9
+        })
+        console.log(this.data.redis);
+        console.log(this.data.redis2);
+
+------------
 
 ## 跨页面通讯方案
 我们经常会碰到 比如在用户中心页面跳转到设置中心页面, 设置后 要求 用户中心页面 数据 也能跟着一起改变
@@ -228,6 +261,125 @@
 缺点：有风险，谁知道会不会突然无效了呢，且页面业务逻辑大了，不知道在哪里做的更改影响到了
 
 ---
+
+## 组件
+关于组件我有新发现了,组件由3部分组成, `component.js`,`component.wxml`,`component.wxss` 其中 `component.js`只会初始化一次，就是在页面加载的时候 (加载app的时候就初始化,而不是进入到页面), 对了,这里有所有的组件公用一个属性的风险
+
+### 公用一个属性的风险
+我们常常用闭包来实现一些特效, 比如函数防抖
+
+```js
+function debounce(callback, time) {
+    let timer = null;
+    return function () {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function() {
+            callback();
+        }, time);
+    };
+}
+
+Component({
+    properties: {
+        value: {
+            type: String,
+            value: '',
+            observer: debounce(function(){
+                // do something
+            }, 200)
+        }
+    }
+})
+```
+比如实现一个输入框 箭头输入, 200不变后才返回结果，！！！！但是, 这个有问题, `就是多个组件同时存在的情况下`
+一般你可以以为,一个组件的时候,会初始化一次, 两个组件的存在的时候,他会初始化二次,实际上呢！
+他只会初始化一次,且是在app加载的时候初始化(这个不能忘)
+
+这样会照成什么样的结果呢,
+一个页面的两个组件的value一起变化,实际上他们是公用一个 `timer` 的！！！, 又因为节流会导致只响应最后一次刚刚的那个组件
+
+#### 解决方案
+把timeer放到 `this.data` 下, 不要被公用掉, 通过this来区分唯一
+
+```js
+observer: (function () {
+    return function (newvalue, oldvalue) {
+        if (this.timer) clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+                // do something
+            }
+        }, 400);
+    };
+})()
+```
+
+------------
+
+## 页面的设计模式
+设计页面的结构有很多种, 小程序页面类似于vue,可以参考vue开发模式,小程序也有自己特殊的组件, import模式
+
+
+### 自定义组件模式
+此模式 与 vue 相似, 可以自定义组件内做自己的事情, 数据改变通知外部方式, 不应该主动调用外部方法
+就是页面可以拆分成多块, 把按钮,选择器之类的基本 组件拆分, 当然, 也可以把页面作为组件(该组件可以直接作为页面,也可以作为组件)
+
+参考 (使用 Component 构造器构造页面)[https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/component.html]
+
+
+### import模式
+这个模式有点意思, 利用 小程序模板(template)[https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/template.html]和mixins(需自己实现)来混合实现
+这个方式有点意思, 在形式上实现了页面拆分, 数据又统一, 并不是自定义组件通过通知改变上层数据, 而是在分层中直接改变数据
+也就是,所有的业务逻辑都集合在了主页面上, 但是开发体验上却又是分散在不同的层, 
+对了, 模板也能够点击事件, 触发的点击事情是在引用的那个主页面上
+
+```js
+
+// index.wxml
+<template>
+    <import src="./action.wxml"></import>
+    <view>主页面</view>
+</template>
+
+// action.wxml
+模板action.wxml里的点击事件, 实际上会触发引入改页面的的js事件
+
+<script>
+
+    // 引用action的页面组件
+    import action from 'action.js'
+
+    Page({
+        mixins: [action]
+    });
+</script>
+
+```
+
+------------
+
+## 视图层显示优化
+### 按钮加载成功后显示
+很多时候,我们会有这种需求,那便是一个按钮本来是隐藏的,后来再出现
+如果采用 wx:if, hidden 没有问题, 注意了 
+```js
+    <view class="{{isCheckFinshed?'hide':''}}"></view>
+
+    Page({
+        data: {
+            isCheckFinshed: 'hide'
+        }
+    })
+``` 
+以上实际出现的效果会是, 实际上一开始view还没有附上 hide, 在稍微卡一点的手机上很明显,
+所以, 应该是这样的, 对于这类 {{  }} 不管是wxml文本还是class, 一开始渲染视图的时候,都只是会空的, 在后面某个步骤再渲染出来
+在卡一点的手机上很明显
+
+---
+
+
+
+------------
+
 
 ## wxpage解析未完
 
