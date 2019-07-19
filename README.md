@@ -29,6 +29,8 @@
 * [视图层显示优化](#视图层显示优化)
   - [按钮加载成功后显示](#按钮加载成功后显示)
 
+* [setData优化](#setData优化)
+
 * [wxpage解析未完](#wxpage解析未完)
 
 
@@ -474,6 +476,63 @@ observer: (function () {
 （此次是猜测）猜测 在 `send initial data` 完成之前, 视图层已经有了, 但是里面的数据都是null, 那个时候只能按都是null的结果来显示, 部分安卓手机比较慢, 放大了中间 (试图层出现 到 `send initial data`结束这一过程 ).
 
 那么最好的处理方式是,试图层默认变量是false去处理
+
+-----------
+
+## setData优化
+
+### 针对数组
+1.添加
+
+```js
+    // 一般分页可能是这样
+    let list = [1,2,3];
+    this.setData({
+        list
+    })
+
+    // 第二页
+    let list = list.concat([4,5,6]);
+    this.setData({
+        list
+    })
+
+
+    // 优化方案
+    this.setData({
+        'list[0]': 0,
+        'list[1]': 1,
+        'list[2]': 2
+    })
+
+    // 第二页
+    this.setData({
+        'list[3]': 3,
+        'list[4]': 4,
+        'list[5]': 5
+    });
+```
+也就是专门针对索引 添加, 具体应该自己写专门处理的方法去返回setData语句
+
+2.删除
+
+```js
+    // 可以通过view下功夫
+    <block wx:for="{{list}}">
+        <block wx:if="{{item}}">
+
+        </block>
+    </block>
+
+    this.setData({
+        'list[3]': null
+    });
+```
+
+3.改
+一样针对具体的索引
+
+>其实也就是做一件事情, 减少setData传入的对象的复杂度
 
 
 ------------
