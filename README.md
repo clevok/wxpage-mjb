@@ -397,9 +397,9 @@ observer: (function () {
 在比如说一些场景, true显示1, false显示2,
 尽管默认 haveSenderAddress 一开始是true, 有的时候也会先显示2, 尤其在卡一点的手机上
 
-**`猜测`** data内的属性在第一次加载的时候是false
+**`猜测`** data内的属性在第一次加载的时候，对于视图层，相当于null
 
-**`实践`** 所以我们用了两个属性, 来区分, 在卡一点的安卓手机上,成功实验出来, 发现确实
+**`实践`** 所以我们用了两个属性, 来区分, 在卡一点的安卓手机上,成功实验出来
 
 ```js
     <view class="fd--column flex-1" wx:if="{{!isEmpty}}">
@@ -416,7 +416,7 @@ observer: (function () {
     })
 
 ```
-这样一来, 基本不会出现2的情况了
+基本不会出现2的情况了
 结论： 猜测, 默认视图层的变量都是空
 
 ---
@@ -447,7 +447,7 @@ observer: (function () {
 
 ```
 
-结论 发现似乎, emmm onLoad配置的似乎出现次数多一点点, 当然也可以和wepy环境有关系
+结论 发现似乎, emmm onLoad配置的似乎出现次数多一点
 
 不行, 我们去WAService中打断点看看
 
@@ -471,8 +471,7 @@ observer: (function () {
 > 也就是说视图层在第一次渲染（`send initial data`）读取了data内的数据, 而后再调用onLoad和onShow
 所以onLoad赋值和data默认的值是有先后顺序区别的
 
-（此次是猜测）猜测 在 `send initial data` 之前，试图层已经有了，但是里面的数据都是null, 那个时候只能按都是null的结果来显示
-而后在 等待`send initial data` 结束这一阶段, 部分安卓手机比较慢， 放大了中间 (试图层出现 到 `send initial data`结束这一过程 ).
+（此次是猜测）猜测 在 `send initial data` 完成之前, 视图层已经有了, 但是里面的数据都是null, 那个时候只能按都是null的结果来显示, 部分安卓手机比较慢, 放大了中间 (试图层出现 到 `send initial data`结束这一过程 ).
 
 那么最好的处理方式是,试图层默认变量是false去处理
 
