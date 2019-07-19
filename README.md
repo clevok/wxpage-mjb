@@ -469,8 +469,9 @@ observer: (function () {
 
 ```
 > 也就是说视图层在第一次渲染（`send initial data`）读取了data内的数据, 而后再调用onLoad和onShow
-所以onLoad赋值和data默认的值是有区别的
-只能猜测 在 `send initial data` 之前，试图层已经有了，但是里面的数据都是null, 那个时候只能按都是null的结果来显示
+所以onLoad赋值和data默认的值是有先后顺序区别的
+
+（此次是猜测）猜测 在 `send initial data` 之前，试图层已经有了，但是里面的数据都是null, 那个时候只能按都是null的结果来显示
 而后在 等待`send initial data` 结束这一阶段, 部分安卓手机比较慢， 放大了中间 (试图层出现 到 `send initial data`结束这一过程 ).
 
 那么最好的处理方式是,试图层默认变量是false去处理
