@@ -1,5 +1,4 @@
-
-<input placeholder="{{placeholder}}"
-        value="{{words}}"
-        bindinput="bindinput" bindblur="bindblur" bindconfirm="bindconfirm"
-        auto-focus="{{focus}}" />
+<view class="input-parent">
+    <input class="input" type="{{type}}" value="{{value}}" placeholder="{{placeholder}}" focus="{{focus}}"
+        bindinput="bindinput" bindblur="bindblur" bindconfirm="bindconfirm" />
+</view>

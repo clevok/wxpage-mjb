@@ -1,0 +1,8 @@
+.input-parent {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.input {
+    width: 100%;
+}

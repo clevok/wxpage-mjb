@@ -336,7 +336,12 @@ observer: (function () {
 
 // index.wxml
 <template>
+    <include src="./action.wxml"></include>
+    
+    // 也可以采用 include 方式
     <import src="./action.wxml"></import>
+    <template is="action" data="{{}}"></template>
+
     <view>主页面</view>
 </template>
 
@@ -360,7 +365,6 @@ observer: (function () {
 ## 视图层显示优化
 ### 按钮加载成功后显示
 很多时候,我们会有这种需求,那便是一个按钮本来是隐藏的,后来再出现
-如果采用 wx:if, hidden 没有问题, 注意了 
 ```js
     <view class="{{isCheckFinshed?'hide':''}}"></view>
 
@@ -374,8 +378,102 @@ observer: (function () {
 所以, 应该是这样的, 对于这类 {{  }} 不管是wxml文本还是class, 一开始渲染视图的时候,都只是会空的, 在后面某个步骤再渲染出来
 在卡一点的手机上很明显
 
+2.
+```js
+    <view class="fd--column flex-1" wx:if="{{haveSenderAddress}}">
+        1
+    </view>
+
+    <view wx:else>
+        2
+    </view>
+
+    Page({
+        data: {
+            haveSenderAddress: true
+        }
+    })
+```
+在比如说一些场景, true显示1, false显示2,
+尽管默认 haveSenderAddress 一开始是true, 有的时候也会先显示2, 尤其在卡一点的手机上
+
+**`猜测`** data内的属性在第一次加载的时候是false
+
+**`实践`** 所以我们用了两个属性, 来区分, 在卡一点的安卓手机上,成功实验出来, 发现确实
+
+```js
+    <view class="fd--column flex-1" wx:if="{{!isEmpty}}">
+        1
+    </view>
+
+    <view wx:else>
+        2
+    </view>
+    Page({
+        data: {
+            isEmpty: false
+        }
+    })
+
+```
+这样一来, 基本不会出现2的情况了
+结论： 猜测, 默认视图层的变量都是空
+
 ---
 
+在查看[`生命周期`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page-life-cycle.html)的时候
+![生命周期](https://res.wx.qq.com/wxdoc/dist/assets/img/page-lifecycle.2e646c86.png)
+
+在视图层(`view thread`)初始化`inited`完成后会通知给 `appservice thread`,然后`appservice thread`开始第一次的`send initial data`
+
+`view thread`初始化的时候, 没有变量？
+发现生命周期上写着, 是在 onLoad, onShow之后才发送初始数据!!!!
+也就是说, 如果我在onLoad中这样写, 和 直接配置data默认值 其实是差不多的???
+我们再来尝试一下
+暂时想不到其他好的对比方式
+只能想的就是 haveSenderAddress: false, onLoad的时候设置true, 看看对比直接设置默认true
+```js
+    <view wx:if="{{haveConsigneeAddress}}"></view>
+
+    data = {
+        haveConsigneeAddress: false
+    }
+
+    onLoad () {
+        this.$wxpage.setData({
+            haveConsigneeAddress: true
+        })
+    }
+
+```
+
+结论 发现似乎, emmm onLoad配置的似乎出现次数多一点点, 当然也可以和wepy环境有关系
+
+不行, 我们去WAService中打断点看看
+
+```js
+     // 大约在 65271行
+    // 注解, 到这一步骤, 没想到, 试图层已经出来了, 而且是默认的配置对象, 也就是说, 并不是我刚刚理解的那样
+    // 第一次渲染 是在 onLoad和onShow之前的, 
+    Mt(Qe, n, bt.newPageTime, void 0, !1),
+    
+    R() && (__wxAppData[e] = l.data,
+        
+    __wxAppData[e].__webviewId__ = n,
+    __appServiceSDK__.publishUpdateAppData());
+    var _ = __appServiceSDK__._getOpenerEventChannel();
+    _ && (Qe.eventChannel = _),
+    debugger
+    l.__callPageLifeTime__("onLoad", r), // 注解 响应 onLoad
+    l.__callPageLifeTime__("onShow"), // 注解 响应 onShow
+
+```
+> 也就是说视图层在第一次渲染（`send initial data`）读取了data内的数据, 而后再调用onLoad和onShow
+所以onLoad赋值和data默认的值是有区别的
+只能猜测 在 `send initial data` 之前，试图层已经有了，但是里面的数据都是null, 那个时候只能按都是null的结果来显示
+而后在 等待`send initial data` 结束这一阶段, 部分安卓手机比较慢， 放大了中间 (试图层出现 到 `send initial data`结束这一过程 ).
+
+那么最好的处理方式是,试图层默认变量是false去处理
 
 
 ------------

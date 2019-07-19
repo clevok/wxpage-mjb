@@ -1,48 +1,45 @@
-Component.C({
+Component({
     properties: {
-        placeholder: {
+        value: {
             type: String,
-            value: '搜索'
+            value: '' // 初始化内容
         },
         focus: {
             type: Boolean,
             value: false
         },
-        words: {
+        placeholder: {
             type: String,
-            observer: (value) => {
-                console.log('改变值', value);
-            }
+            value: '搜索'
+        },
+        type: {
+            type: String,
+            value: 'text'
         }
     },
     data: {
-
+    },
+    _static: {
+        value: ''
+    },
+    created () {
+        this._static = {value: ''};
+    },
+    attached () {
+        this._static.value = this.properties.value;
     },
     methods: {
-        init(obj) {
-            if(obj.words) {
-                this.setData({
-                    words: this.words
-                });
-            }
-        },
         bindinput({detail}) {
-            let msg = detail.value.trim();
-            if(msg != this.properties.words) {
-                this.triggerEvent('change', msg);
-            }
-            this.properties.words = msg;
+            this._static.value = detail.value.trim();
+            this.triggerEvent('change', this._static.value);
         },
         bindblur({detail}) {
-            let msg = detail.value.trim();
-            if(msg != this.properties.words) {
-                this.triggerEvent('change', msg);
-            }
-            this.properties.words = msg;
+            this._static.value = detail.value.trim();
+            this.triggerEvent('change', this._static.value);
         },
         bindconfirm({detail}) {
-            this.properties.words = detail.value.trim();
-            this.triggerEvent('submit', this.properties.words);
+            this._static.value = detail.value.trim();
+            this.triggerEvent('submit', this._static.value);
         }
     }
-})
+});
