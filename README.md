@@ -8,17 +8,18 @@
 * [刚入门时,我的错误理解](#刚入门时,我的错误理解)
 
 * [预加载](#预加载)
-  - [preload的实现方案](#preload的实现方案)
-  - [为什么要将请求保存在一个对象中而不是在onPreLoad直接更改data内容](#为什么要将请求保存在一个对象中而不是在onPreLoad直接更改data内容)
-  - [预加载的研究性的方案:废弃](#预加载的研究性的方案)
-  - [预加载的另一个小方案:适合长期不变的数据](#预加载的另一个小方案适合长期不变的数据)
-  - [wxpage的preload原理同wepy](#wxpage的preload原理同wepy)
+    - [preload的实现方案](#preload的实现方案)
+    - [为什么要将请求保存在一个对象中而不是在onPreLoad直接更改data内容](#为什么要将请求保存在一个对象中而不是在onPreLoad直接更改data内容)
+    - [预加载的研究性的方案:废弃](#预加载的研究性的方案)
+    - [预加载的另一个小方案:适合长期不变的数据](#预加载的另一个小方案适合长期不变的数据)
+    - [wxpage的preload原理同wepy](#wxpage的preload原理同wepy)
+
 
 * [跨页面通讯方案](#跨页面通讯方案)
-  - [全局状态管理](#全局状态管理)
-  - [事件发布订阅](#事件发布订阅)
-  - [onShow配合其他数据](#onShow配合其他数据)
-  - [hack模式:不推荐](#hack模式)
+    - [全局状态管理](#全局状态管理)
+    - [事件发布订阅](#事件发布订阅)
+    - [onShow配合其他数据](#onShow配合其他数据)
+    - [hack模式:不推荐](#hack模式)
 
 
 * [页面的设计模式](#页面的设计模式)
@@ -27,13 +28,32 @@
 
 
 * [视图层显示优化](#视图层显示优化)
-  - [按钮加载成功后显示](#按钮加载成功后显示)
+    - [按钮加载成功后显示](#按钮加载成功后显示)
+
 
 * [setData优化](#setData优化)
 
+
+* [快捷引用](#快捷引用)
+    - [引用自定义组件](#引用自定义组件)
+    - [组件关系引用](#组件关系引用)
+    - [wxss引用](#wxss引用)
+    - [js引用](#js引用)
+
+
+* [小程序框架设计想法](#小程序框架设计想法)
+    - [搭建私有npm和github](#搭建私有npm和github)
+    - [自定义组件方面](#自定义组件方面)
+    - [脚手架](#脚手架)
+    - [路由方面](#路由方面)
+    - [wxss方面](#wxss方面)
+        - [css3变量](#css3变量)
+        - [可配置方案](#可配置方案)
+        - [主题色方案](#主题色方案)
+
+
 * [wxpage解析未完](#wxpage解析未完)
-
-
+    
 ------------
 
 ## 刚入门时, 我的错误理解
@@ -265,9 +285,10 @@
 ---
 
 ## 组件
-关于组件我有新发现了,组件由3部分组成, `component.js`,`component.wxml`,`component.wxss` 其中 `component.js`只会初始化一次，就是在页面加载的时候 (加载app的时候就初始化,而不是进入到页面), 对了,这里有所有的组件公用一个属性的风险
+关于组件我有新发现了,组件由3部分组成, `component.js`,`component.wxml`,`component.wxss` 其中 `component.js`只会初始化一次，就是在页面加载的时候 (加载app的时候就初始化,而不是进入到页面), 对了,这里有所有的组件公用一个环境变量的风险
 
-### 公用一个属性的风险
+
+### 公用一个环境变量的风险
 我们常常用闭包来实现一些特效, 比如函数防抖
 
 ```js
@@ -327,6 +348,13 @@ observer: (function () {
 
 参考 (使用 Component 构造器构造页面)[https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/component.html]
 
+对了, 自定义组件可以绝对路径引用
+```js
+{
+    'index-join-list': '/pagesComponents/index/pages/joinList/joinList'
+}
+```
+
 
 ### import模式
 这个模式有点意思, 利用 小程序模板(template)[https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/template.html]和mixins(需自己实现)来混合实现
@@ -366,19 +394,26 @@ observer: (function () {
 
 ## 视图层显示优化
 ### 按钮加载成功后显示
-很多时候,我们会有这种需求,那便是一个按钮本来是隐藏的,后来再出现
+很多时候,我们会有这种需求,那便是一个按钮本来是隐藏的,后来再出现,所以弄一个`hide`属性
+>结论: 我们应该反过来, 给这个view本身一个隐藏的属性, 当完成后, 让他显示
+
+下面的案例是想这个按钮初始化, 一开始赋予 hide 属性
 ```js
     <view class="{{isCheckFinshed?'hide':''}}"></view>
 
     Page({
         data: {
-            isCheckFinshed: 'hide'
+            isCheckFinshed: true'
         }
     })
 ``` 
-以上实际出现的效果会是, 实际上一开始view还没有附上 hide, 在稍微卡一点的手机上很明显,
-所以, 应该是这样的, 对于这类 {{  }} 不管是wxml文本还是class, 一开始渲染视图的时候,都只是会空的, 在后面某个步骤再渲染出来
-在卡一点的手机上很明显
+但实际上, 一开始view 直接显示出来了!!!(部分安卓手机上,ios基本看不出来), 也就是没有附加hide这个样式
+
+#### 研究是因为变量默认是false导致的吗 
+
+可以简单的理解, class,wxml 这里的{{}} 一开始我们就当都不会搞出来, 就当不会做逻辑判断,解析生成class或文本
+
+ (wx:if到是会, 但是视图是默认变量是false)
 
 2.
 ```js
@@ -426,32 +461,15 @@ observer: (function () {
 在查看[`生命周期`](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page-life-cycle.html)的时候
 ![生命周期](https://res.wx.qq.com/wxdoc/dist/assets/img/page-lifecycle.2e646c86.png)
 
-在视图层(`view thread`)初始化`inited`完成后会通知给 `appservice thread`,然后`appservice thread`开始第一次的`send initial data`
+在视图层(`view thread`)自己先有一个初始化(`init`)过程, `inited`完成后会通知给 `appservice thread`,然后`appservice thread`开始第一次的`send initial data`
 
-`view thread`初始化的时候, 没有变量？
-发现生命周期上写着, 是在 onLoad, onShow之后才发送初始数据!!!!
-也就是说, 如果我在onLoad中这样写, 和 直接配置data默认值 其实是差不多的???
-我们再来尝试一下
-暂时想不到其他好的对比方式
-只能想的就是 haveSenderAddress: false, onLoad的时候设置true, 看看对比直接设置默认true
-```js
-    <view wx:if="{{haveConsigneeAddress}}"></view>
+那么问题出现在视图层(`view thread`)初始化过程中, 也就是将data原本已经有了的变量更新到视图层中这一过程在卡一点的手机上会慢！！
+1. 视图层做好准备, 逻辑层做好准备(等待视图层第一次初始化完成)
+2. 视图层开始初始化, 将data数据初始化给视图层
+3. 视图层初始化完毕, 发送通知给逻辑层, 告诉他我准备好了
+4. 然后逻辑层如果onShow,onLoad有setData操作, 此时将正在处理
 
-    data = {
-        haveConsigneeAddress: false
-    }
-
-    onLoad () {
-        this.$wxpage.setData({
-            haveConsigneeAddress: true
-        })
-    }
-
-```
-
-结论 发现似乎, emmm onLoad配置的似乎出现次数多一点
-
-不行, 我们去WAService中打断点看看
+我猜想中间有一次 没有按照理想状态来是因为我们把变量默认当中true, 可能是第一步到第二部, 视图层初始化有的手机, 差距显示大, 视图层变量当中没有来对待
 
 ```js
      // 大约在 65271行
@@ -470,12 +488,8 @@ observer: (function () {
     l.__callPageLifeTime__("onShow"), // 注解 响应 onShow
 
 ```
-> 也就是说视图层在第一次渲染（`send initial data`）读取了data内的数据, 而后再调用onLoad和onShow
-所以onLoad赋值和data默认的值是有先后顺序区别的
 
-（此次是猜测）猜测 在 `send initial data` 完成之前, 视图层已经有了, 但是里面的数据都是null, 那个时候只能按都是null的结果来显示, 部分安卓手机比较慢, 放大了中间 (试图层出现 到 `send initial data`结束这一过程 ).
-
-那么最好的处理方式是,试图层默认变量是false去处理
+那么最好的处理方式是,把试图层默认变量是false去处理一些状态
 
 -----------
 
@@ -497,20 +511,18 @@ observer: (function () {
         list
     })
 
+    // 优化方案2
+    this.setData({
+        [`list${this.data.list.length}`]: list
+    })
 
-    // 优化方案
+    // 或者不怕麻烦的话
     this.setData({
         'list[0]': 0,
         'list[1]': 1,
         'list[2]': 2
     })
 
-    // 第二页
-    this.setData({
-        'list[3]': 3,
-        'list[4]': 4,
-        'list[5]': 5
-    });
 ```
 也就是专门针对索引 添加, 具体应该自己写专门处理的方法去返回setData语句
 
@@ -534,6 +546,106 @@ observer: (function () {
 
 >其实也就是做一件事情, 减少setData传入的对象的复杂度
 
+-----------
+
+## 快捷引用
+
+### 引用自定义组件
+实现访问根目录
+```js
+    usingComponents: {
+        'c-speech-recognition': '/components/CSpeechRecognition/CSpeechRecognition'
+    }
+```
+
+### 组件关系引用`
+
+```js
+    relations: {
+        // 下面也可以配置引用根目录
+        '/custom-li': {
+            type: 'child',
+            linked: function(target) {}
+        }
+    }
+```
+
+### wxss引用
+/ 实现访问根目录
+```css
+@import '/style';
+```
+
+### js引用
+
+配合webpack路径别名, vscode配置 `jsconfig.json`
+```js
+{
+    "compilerOptions": {
+        "target": "es6",
+        "baseUrl": "./",
+        "paths": {
+            // 路径别名
+            "@/*": ["src/*"],
+        },
+        "module": "es6",
+        "allowSyntheticDefaultImports": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": ["node_modules", "dist"]
+}
+```
+
+------
+
+## 小程序框架设计想法
+
+### 搭建私有npm和github
+可以使用 verdaccio, Gogs或gitLab
+
+### 脚手架
+个人还是比较喜欢在原生小程序基础上进行扩展, 不太想采用mpvue, wepy, 主要是很多框架都号称提高性能, 实际上在一些场景, 这些框架根本就是拖累, 尤其wepy1(2待定)在list, 更改其中某一项的name你就会发现问题所在
+预采用`pandora`
+小程序框架想要在 `wxpage` 基础上更改
+
+### 路由方面
+想要采用路由集中化管理设置别名, 类似vue ,扩展 微信路由跳转方法, 要求统一使用自己的路由别名跳转对于的页面
+(原因是因为有的时候,更改分包名,又不敢删除原来的页面, 当然最主要的原因就是为了跳转预加载等方面实现);
+
+调用扩展的路由方面,对应唤起对应的页面的预加载的方法(扩展session等概念), 同时也可以拦截onShow方法, 可以扩展出的实现监听路由变化的方法, 不管是后退还是前进, 都可以拦截, 原先 `wxpage` 有一个很好的概念, 可以监听来自其他地方跳转到该页面的方法, 在这里再调用页面上的预加载方法, 具体看[wxpage的preload原理同wepy](#wxpage的preload原理同wepy)
+
+需要同时提供<navigator>跳转方式,以及wx的跳转方式
+
+### 自定义组件方面
+基础的自定义组件应该不依赖外部css, 可以依赖css变量, 但是主要注意设置默认值
+
+### wxss方面
+
+#### css3变量
+```css
+page {
+    --main: red
+}
+```
+全面采用css3变量, 可以很好的维系所有的自定义组件的样式(会传入), 如果之后有主题色的需求,
+变量名注意抽象点
+
+#### 可配置方案
+css目前主要想分为 layout(布局), spacing(边距), colors(颜色), font(字体)
+其中一些边距呀, colors, font可以参考vuetify命名, 将里面的具体的颜色,字体大小, 通过page下的变量维系起来,更改这些变量实现更改所有的尺寸
+
+#### 主题色方案
+利用css变量
+```css
+.page {
+    --main: red
+}
+.page.dark {
+    --main: green
+}
+```
 
 ------------
 
