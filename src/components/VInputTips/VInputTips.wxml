@@ -1,0 +1,5 @@
+<view class="input-parent">
+    <view class="input-tips {{toFixed?'fixed':''}}">{{placeholder}}</view>
+    <input class="input" type="{{type}}" value="{{value}}" placeholder="{{placeholder}}" auto-focus="{{focus}}"
+        bindfocus="bindfocus" bindinput="bindinput" bindblur="bindblur" bindconfirm="bindconfirm" />
+</view>

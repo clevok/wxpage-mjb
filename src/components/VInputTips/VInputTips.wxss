@@ -1,0 +1,22 @@
+.input-parent {
+    position: relative;
+}
+.input-tips {
+    font-size: 10px;
+    transform: translateY(15px) scale(1.5);
+    opacity: 0;
+
+    color: #999999;
+    white-space: nowrap;
+    pointer-events: none;
+    transform-origin: top left;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+.input-tips.fixed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    /* font-size: inherit; */
+}
+.input {
+    width: 100%;
+}

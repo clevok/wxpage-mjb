@@ -24,6 +24,7 @@
 
 * [页面的设计模式](#页面的设计模式)
     - [自定义组件模式](#自定义组件模式)
+        - [如何给自定义组件根设置样式](如何给自定义组件根设置样式)
     - [import模式](#import模式)
 
 
@@ -355,6 +356,20 @@ observer: (function () {
 }
 ```
 
+#### 如何给自定义组件根设置样式
+也就是 shadow-root, 要么在 自定义组件设置
+```css
+:host {
+    // 注意了, 这样样式不能写在@import里面的, 不会起作用
+}
+```
+还有就是直接给自定义组件标签上加class
+```js
+    <login class="demo"></login>
+```
+这里需要注意一点,就是 如果你设置demo宽度 500px; 没有用, 你还需要设置 display: inline-block;才可以
+当然 `:host` 没有这个问题, class优先级大于 :host
+![host](./static/readme1.png)
 
 ### import模式
 这个模式有点意思, 利用 小程序模板(template)[https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/template.html]和mixins(需自己实现)来混合实现
@@ -674,6 +689,44 @@ css目前主要想分为 layout(布局), spacing(边距), colors(颜色), font(�
 }
 .page.dark {
     --main: green
+}
+```
+
+#### 给自定义组件节点root添加样式
+`写在@import里面是无效的`
+
+最好的方式是在自定义节点加
+```css
+:host {
+    color: green
+}
+```
+https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html
+使用场景: 我有一个模态框, 下面有插槽, 里面添加若干个按钮并排显示,所以在插槽外部设置display:flex;
+因为有shadow-root存在,btn这个设置一个flex-1 没有用,因为被封装进#shadow-root(影子根),除非直接给自定义组件上加样式
+当然还有中方法就是通过 `:host`
+```html
+<modal>
+    <view style="display:flex">
+        <btn>
+            #shadow-root
+        </btn>
+        
+        // 次要解决方法
+        <btn class="flex-1">
+            #shadow-root
+        </btn>
+    </view>
+
+</modal>
+
+
+```
+```css
+// 详见红版里面的模态框
+在按钮指定组件样式内写，相当于直接给根上定义样式
+:host {
+    flex:1
 }
 ```
 
