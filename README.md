@@ -1,7 +1,8 @@
 ### 前言
 一直在找原生基础上扩展属性的框架, 主要想干净点, 自己容易扩展, 后来找到了 wxpage(腾讯视频出品), 在它基础上对 router 改了一下 [github 地址](https://github.com/clevok/wxpage)
 
-参考大佬的[文章](https://wetest.qq.com/lab/view/294.html?from=content_csdnblog)
+参考[文章](https://wetest.qq.com/lab/view/294.html?from=content_csdnblog)
+[mixins混入替代方案,全局状态管理替代方法](./COMPOSITION.MD);
 
 ## 目录
 
@@ -18,6 +19,7 @@
 
 * [跨页面通讯方案](#跨页面通讯方案)
     - [全局状态管理](#全局状态管理)
+    - [全局状态管理之小程序版Composition](./COMPOSITION.MD)
     - [事件发布订阅](#事件发布订阅)
     - [onShow配合其他数据](#onShow配合其他数据)
     - [hack模式:不推荐](#hack模式)
@@ -27,7 +29,8 @@
     - [自定义组件模式](#自定义组件模式)
         - [如何给自定义组件根设置样式](如何给自定义组件根设置样式)
     - [import模式](#import模式)
-
+    - [混入模式](#混入模式)
+    - [小程序版Composition](./COMPOSITION.MD)
 
 * [视图层显示优化](#视图层显示优化)
     - [按钮加载成功后显示](#按钮加载成功后显示)
@@ -265,8 +268,10 @@
 
 
 ### 全局状态管理
-其实就是类似 vuex, redux, mobx, 好的方案我还在看
+其实就是类似 vuex, redux, mobx, 详情百度 小程序官方也出了[小程序的 MobX 绑定辅助库](https://developers.weixin.qq.com/miniprogram/dev/extended/utils/mobx.html)
 
+### [全局状态管理之小程序版Composition](./COMPOSITION.MD)
+这个是另一种思路, 蛮有意思的, 只能作为参考
 
 
 ### 事件发布订阅
@@ -415,6 +420,10 @@ observer: (function () {
 
 ### 混入模式
 混入其实就是mixins,实现代码共享,但也有很大的问题,至于怎么实现很简单,详情百度 mixins如何实现
+
+
+### [小程序版Composition](./COMPOSITION.MD)
+一开始是为了解决mixins带来的问题,如果页面不复杂,那么混入带来的负面影响很小,如果很大的话,那带来的影响就很大了,你常常看到某个方法里调用另一个方法,却找不到在哪,代码也确实提示,当然,自己维护自己的代码还好,一单别人维护起来,那就蛋疼了
 
 
 ------------
